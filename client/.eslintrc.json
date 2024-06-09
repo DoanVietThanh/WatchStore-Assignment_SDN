@@ -1,0 +1,31 @@
+// npm install eslint-plugin-react-refresh eslint-plugin-simple-import-sort
+
+{
+  "extends": ["next", "next/babel", "next/core-web-vitals"],
+  "plugins": ["react-refresh", "simple-import-sort"],
+  "rules": {
+    "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // `react` first, `next` second, then packages starting with a character
+          ["^react$", "^next", "^[a-z]"],
+          // Packages starting with `@`
+          ["^@"],
+          // Packages starting with `~`
+          ["^~"],
+          // Imports starting with `../`
+          ["^..(?!/?$)", "^../?$"],
+          // Imports starting with `./`
+          ["^./(?=.*/)(?!/?$)", "^.(?!/?$)", "^./?$"],
+          // Style imports
+          ["^.+.s?css$"],
+          // Side effect imports
+          ["^\u0000"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error"
+  }
+}
