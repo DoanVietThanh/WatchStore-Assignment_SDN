@@ -1,11 +1,14 @@
-import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ReactNode } from "react";
 
 import SessionWrapper from "@/components/session-wrapper";
-import AuthMiddleware from "@/lib/auth-middleware";
 
-import "../global.css";
+// import FooterPublic from "@/layouts/public-layout/footer-public";
+// import HeaderPublic from "@/layouts/public-layout/header-public";
+import "../globals.css";
+import HeaderPublic from "@/layouts/public-layout/header-public";
+import FooterPublic from "@/layouts/public-layout/footer-public";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +27,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <SessionWrapper>
       {/* <AuthMiddleware> */}
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <div className="flex flex-col justify-between min-h-screen">
+            <HeaderPublic />
+            {children}
+            <FooterPublic />
+          </div>
+        </body>
       </html>
       {/* </AuthMiddleware> */}
     </SessionWrapper>
