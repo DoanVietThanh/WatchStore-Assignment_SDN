@@ -37,7 +37,7 @@ export const getWatch = async (req: Request, res: Response) => {
 
 export const queryWatches = async (req: Request, res: Response) => {
   try {
-    const { watchName, pageNumber = "1", pageSize = "10", sortBy = "watchName", sortOrder = "1" } = req.query;
+    const { watchName, pageNumber, pageSize, sortBy, sortOrder } = req.query;
     const page = parseInt(pageNumber as string, 10);
     const size = parseInt(pageSize as string, 10);
 

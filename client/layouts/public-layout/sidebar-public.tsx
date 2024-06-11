@@ -1,7 +1,7 @@
 import React from "react";
 
 const SidebarPublic = () => {
-  return <div>SidebarPublic</div>;
+  return <div className="text-3xl font-bold text-red-400 bg-black">SidebarPublic</div>;
 };
 
 export default SidebarPublic;

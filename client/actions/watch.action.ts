@@ -1,13 +1,29 @@
-import { toast } from "sonner";
+import { serialize } from "@/lib/serialize-query-string";
+import { SearchParams } from "@/types/search-params.types";
 
-export const fetchAllWatch = async () => {
+const SERVER_URL = process.env.SERVER_URL;
+
+export const fetchAllWatch = async (searchParams: SearchParams) => {
   try {
-    const response = await fetch("http://localhost:5000/api/watch/query-watches", {
+    const convertedQueryString = serialize(searchParams);
+    const response = await fetch(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`, {
       method: "GET",
     });
     const data = await response.json();
     return data;
   } catch (error: any) {
-    toast.error(error.message);
+    console.log(error);
+  }
+};
+
+export const fetchWatch = async (id: string) => {
+  try {
+    const response = await fetch(`${SERVER_URL}/watch/${id}`, {
+      method: "GET",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };
