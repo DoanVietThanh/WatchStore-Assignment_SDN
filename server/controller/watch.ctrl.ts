@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { WatchModel } from "../models/watch.schema";
-import { BrandModel } from "../models/brand.schema";
+import { WatchModel } from "../models/watch.model";
+import { BrandModel } from "../models/brand.model";
 
 export const createWatch = async (req: Request, res: Response) => {
   const { watchName, brand: brandId } = req.body;
@@ -35,14 +35,22 @@ export const getWatch = async (req: Request, res: Response) => {
   });
 };
 
-export const getAllWatches = async (req: Request, res: Response) => {
+export const queryWatches = async (req: Request, res: Response) => {
   try {
-    const allWatches = await WatchModel.find().populate({ path: "brand", select: "brandName" });
-    return res.status(200).json({
-      data: allWatches,
-      success: true,
-      message: "Get all watches successfully",
-    });
+    const { watchName, pageNumber = "1", pageSize = "10", sortBy = "watchName", sortOrder = "1" } = req.query;
+    const page = parseInt(pageNumber as string, 10);
+    const size = parseInt(pageSize as string, 10);
+
+    const query = watchName ? { watchName: { $regex: watchName, $options: "i" } } : {};
+    const brands = await WatchModel.find(query)
+      .skip((page - 1) * size)
+      .limit(size)
+      .sort({ [sortBy as string]: Number(sortOrder) === 1 ? 1 : -1 })
+      .populate([{ path: "brand", select: "brandName" }])
+      .select("-createdAt -updatedAt -__v");
+    const totalCount = await WatchModel.countDocuments(query);
+
+    return res.status(200).json({ data: brands, totalCount, success: true, message: "Get brands successfully" });
   } catch (error: any) {
     return res.status(500).json({ message: error.message, success: false });
   }

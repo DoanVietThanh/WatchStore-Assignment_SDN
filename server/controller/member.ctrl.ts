@@ -44,26 +44,55 @@ export const logoutMember = async (req: Request, res: Response) => {
 };
 
 export const getAllMembers = async (req: Request, res: Response) => {
-  const members = await MemberModel.find().select("-password");
-  return res.status(200).json({ data: members, success: true });
+  try {
+    const members = await MemberModel.find().select("-password");
+    return res.status(200).json({ data: members, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
 };
 
 export const getAccounts = async (req: Request, res: Response) => {
-  const members = await MemberModel.find({ isAdmin: false }).select("-password");
-  return res.status(200).json({ data: members, success: true });
+  try {
+    const members = await MemberModel.find({ isAdmin: false }).select("-password");
+    return res.status(200).json({ data: members, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
 };
 
 export const getMember = async (req: Request, res: Response) => {
-  const member = await MemberModel.findById(req.params.id).select("-password");
-  return res.status(200).json({ data: member, success: true });
+  try {
+    const member = await MemberModel.findById(req.params.id).select("-password");
+    if (!member) {
+      return res.status(404).json({ message: "Member not found", success: false });
+    }
+    return res.status(200).json({ data: member, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
 };
 
 export const updateMember = async (req: Request, res: Response) => {
-  const updatedMember = await MemberModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  return res.status(200).json({ data: updatedMember, success: true });
+  try {
+    const updatedMember = await MemberModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedMember) {
+      return res.status(404).json({ message: "Member not found", success: false });
+    }
+    return res.status(200).json({ data: updatedMember, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
 };
 
 export const deleteMember = async (req: Request, res: Response) => {
-  const deletedMember = await MemberModel.findByIdAndDelete(req.params.id);
-  return res.status(200).json({ data: deletedMember, success: true });
+  try {
+    const deletedMember = await MemberModel.findByIdAndDelete(req.params.id);
+    if (!deletedMember) {
+      return res.status(404).json({ message: "Member not found", success: false });
+    }
+    return res.status(200).json({ data: deletedMember, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
 };

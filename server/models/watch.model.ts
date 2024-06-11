@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { commentSchema } from "./comment.schema";
+import { commentSchema } from "./comment.model";
 
 export const watchSchema = new mongoose.Schema(
   {
@@ -15,7 +15,7 @@ export const watchSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    Automatic: {
+    automatic: {
       type: Boolean,
       default: false,
     },

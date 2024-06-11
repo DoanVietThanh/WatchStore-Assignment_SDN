@@ -4,10 +4,7 @@
   "extends": ["next", "next/babel", "next/core-web-vitals"],
   "plugins": ["react-refresh", "simple-import-sort"],
   "rules": {
-    "react-refresh/only-export-components": [
-      "warn",
-      { "allowConstantExport": true }
-    ],
+    "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
     "simple-import-sort/imports": [
       "error",
       {
@@ -19,13 +16,13 @@
           // Packages starting with `~`
           ["^~"],
           // Imports starting with `../`
-          ["^..(?!/?$)", "^../?$"],
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
           // Imports starting with `./`
-          ["^./(?=.*/)(?!/?$)", "^.(?!/?$)", "^./?$"],
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
           // Style imports
-          ["^.+.s?css$"],
+          ["^.+\\.s?css$"],
           // Side effect imports
-          ["^\u0000"]
+          ["^\\u0000"]
         ]
       }
     ],

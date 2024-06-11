@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
+import { useSession } from "next-auth/react";
 
 type AuthMiddlewareProps = Readonly<{
   children: ReactNode;

@@ -1,8 +1,8 @@
-import { CommentModel } from "../models/comment.schema";
 import { Request, Response } from "express";
-import { WatchModel } from "../models/watch.schema";
 import { MemberModel } from "../models/member.model";
 import mongoose from "mongoose";
+import { WatchModel } from "../models/watch.model";
+import { CommentModel } from "../models/comment.model";
 export const createComment = async (req: Request, res: Response) => {
   try {
     const { author: memberId } = req.body;

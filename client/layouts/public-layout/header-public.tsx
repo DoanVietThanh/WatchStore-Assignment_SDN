@@ -1,9 +1,10 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut, Settings, User } from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { LogOut, Settings, User } from "lucide-react";
 
+import Searchbar from "@/components/searchbar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,17 +17,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 const HeaderPublic = () => {
   const { data } = useSession();
-  console.log("🚀 ~ HeaderPublic ~ data:", data);
   const user = data?.user;
   return (
-    <div className="border flex items-center justify-between px-8 py-2">
+    <div className="border flex items-center justify-between px-8 py-2 mb-4">
       <Image
         src="https://theme.hstatic.net/200000656863/1001222351/14/logo.png?v=377"
         alt="logo"
         width={150}
         height={150}
       />
-      <div className="flex-1 text-center">search</div>
+      <div className="flex-1 text-center">
+        <Searchbar />
+      </div>
       <div>
         {user ? (
           <DropdownMenu>

@@ -1,13 +1,13 @@
 import express from "express";
-import { createBrand, deleteBrand, getAllBrands, getBrand, updateBrand } from "../controller/brand.ctrl";
+import { createBrand, deleteBrand, getBrand, queryBrand, updateBrand } from "../controller/brand.ctrl";
+import { authMiddleware, isAdmin } from "../middleware/auth.middleware";
 import { validateData } from "../middleware/validation.middleware";
 import { brandValidationSchema } from "../validations/brand.validation";
-import { authMiddleware, isAdmin } from "../middleware/auth.middleware";
 
 export const brandRoutes = express.Router();
 
-brandRoutes.post("/", validateData(brandValidationSchema), createBrand);
-brandRoutes.get("/all-brands", authMiddleware, isAdmin, getAllBrands);
+brandRoutes.post("/", validateData(brandValidationSchema), authMiddleware, isAdmin, createBrand);
+brandRoutes.get("/query-brands", queryBrand);
 
 brandRoutes.get("/:id", getBrand);
 brandRoutes.put("/:id", authMiddleware, isAdmin, updateBrand);
