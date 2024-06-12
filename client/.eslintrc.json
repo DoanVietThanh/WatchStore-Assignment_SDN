@@ -1,7 +1,7 @@
 // npm install eslint-plugin-react-refresh eslint-plugin-simple-import-sort
 
 {
-  "extends": ["next", "next/babel", "next/core-web-vitals"],
+  "extends": ["next", "next/core-web-vitals"],
   "plugins": ["react-refresh", "simple-import-sort"],
   "rules": {
     "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],

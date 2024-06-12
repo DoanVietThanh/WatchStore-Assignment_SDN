@@ -24,7 +24,9 @@ export const createWatch = async (req: Request, res: Response) => {
 };
 
 export const getWatch = async (req: Request, res: Response) => {
-  const existingWatch = await WatchModel.findById(req.params.id);
+  const existingWatch = await WatchModel.findById(req.params.id)
+    .populate([{ path: "brand", select: "brandName" }])
+    .select("-createdAt -updatedAt -__v");
   if (!existingWatch) {
     return res.status(404).json({ message: "Watch not found", success: false });
   }

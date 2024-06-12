@@ -15,6 +15,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 const HeaderPublic = () => {
   const { data } = useSession();
   const user = data?.user;
@@ -67,8 +68,11 @@ const HeaderPublic = () => {
           </DropdownMenu>
         ) : (
           <div>
+            <Button variant={"default"} onClick={() => {}} asChild>
+              <Link href="/sign-in">Sign In</Link>
+            </Button>
             <Button variant={"link"} onClick={() => signIn()}>
-              Login
+              Login Next-Auth
             </Button>
           </div>
         )}

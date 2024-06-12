@@ -15,6 +15,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "theme.hstatic.net",
       },
+      {
+        protocol: "https",
+        hostname: "bossluxurywatch.vn",
+      },
     ],
   },
 };

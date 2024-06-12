@@ -1,5 +1,7 @@
-import { WatchItemType } from "@/types/watch.types";
+import Image from "next/image";
 import Link from "next/link";
+
+import { WatchItemType } from "@/types/watch.types";
 
 type WatchItemProps = {
   watch: WatchItemType;
@@ -9,7 +11,7 @@ const WatchItem = ({ watch }: WatchItemProps) => {
   return (
     <div className="flex flex-col items-center justify-center border gap-2 p-4 rounded-md">
       <div className="w-full overflow-hidden transition-all duration-200">
-        <img
+        <Image
           src={watch.image}
           alt={watch.watchName}
           width={400}

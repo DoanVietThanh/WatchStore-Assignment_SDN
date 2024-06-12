@@ -1,6 +1,8 @@
 import React from "react";
-import WatchItem from "./watch-item";
+
 import { WatchItemType } from "@/types/watch.types";
+
+import WatchItem from "./watch-item";
 
 type WatchListProps = {
   watchesListData: WatchItemType[];

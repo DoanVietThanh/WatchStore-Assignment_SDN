@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import SessionWrapper from "@/components/session-wrapper";
+import { Toaster } from "@/components/ui/sonner";
 
 import "../globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <SessionWrapper>
       <html lang="en">
         <body className={inter.className}>{children}</body>
+        <Toaster position="top-right" richColors theme="light" />
       </html>
     </SessionWrapper>
   );

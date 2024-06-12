@@ -2,7 +2,7 @@ import React from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-const LoadingHomePage = () => {
+const WatchDetailLoading = () => {
   return (
     <div className="flex items-center space-x-4">
       <Skeleton className="h-12 w-12 rounded-full" />
@@ -14,4 +14,4 @@ const LoadingHomePage = () => {
   );
 };
 
-export default LoadingHomePage;
+export default WatchDetailLoading;

@@ -1,11 +1,12 @@
 import { serialize } from "@/lib/serialize-query-string";
 import { SearchParams } from "@/types/search-params.types";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const fetchAllWatch = async (searchParams: SearchParams) => {
   try {
     const convertedQueryString = serialize(searchParams);
+    console.log(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`);
     const response = await fetch(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`, {
       method: "GET",
     });
