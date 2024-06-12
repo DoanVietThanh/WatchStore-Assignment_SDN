@@ -8,6 +8,7 @@ type WatchItemProps = {
 };
 
 const WatchItem = ({ watch }: WatchItemProps) => {
+  console.log("🚀 ~ WatchItem ~ watch:", watch);
   return (
     <div className="flex flex-col items-center justify-center border gap-2 p-4 rounded-md">
       <div className="w-full overflow-hidden transition-all duration-200">
@@ -22,7 +23,7 @@ const WatchItem = ({ watch }: WatchItemProps) => {
       <Link href={`/watch/${watch._id}`} className="text-xl font-semibold hover:text-yellow-600">
         {watch.watchName}
       </Link>
-      <p className="text-xl text-yellow-600">${watch.price}</p>
+      <p className="text-xl text-yellow-600">{watch.brand.brandName}</p>
     </div>
   );
 };

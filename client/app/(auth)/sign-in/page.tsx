@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -18,6 +19,7 @@ const formSchema = z.object({
   }),
 });
 const SignInPage = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,9 +31,10 @@ const SignInPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const res = await signInMember(values);
-      console.log("🚀 ~ onSubmit ~ res:", res);
       if (res.success) {
+        localStorage.setItem("token", JSON.stringify(res.token));
         toast.success(res.message || "Sign in success");
+        router.push("/home");
       }
     } catch (err: any) {
       toast.error(err.message || "Sign-in failed");
@@ -76,7 +79,7 @@ const SignInPage = () => {
               <Button type="submit" variant={"primary"} className="w-full">
                 Submit
               </Button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
                 Have not an account?{" "}
                 <a href="/sign-up" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                   Sign-up here
