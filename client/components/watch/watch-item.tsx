@@ -8,7 +8,6 @@ type WatchItemProps = {
 };
 
 const WatchItem = ({ watch }: WatchItemProps) => {
-  console.log("🚀 ~ WatchItem ~ watch:", watch);
   return (
     <div className="flex flex-col items-center justify-center border gap-2 p-4 rounded-md">
       <div className="w-full overflow-hidden transition-all duration-200">

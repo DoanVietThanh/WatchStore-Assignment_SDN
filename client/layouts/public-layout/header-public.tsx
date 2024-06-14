@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { LogOut, Settings, User } from "lucide-react";
 
@@ -15,7 +16,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 const HeaderPublic = () => {
   const { data } = useSession();
   const user = data?.user;

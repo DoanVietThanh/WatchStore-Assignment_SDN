@@ -37,3 +37,19 @@ export const signUpMember = async (values: MemberType) => {
   const responseData = await response.json();
   return responseData;
 };
+
+export const getCurrentMember = async (token: string) => {
+  const response = await fetch(`${SERVER_URL}/member/current-member`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "An error occurred while getting current member");
+  }
+  const responseData = await response.json();
+  return responseData;
+};

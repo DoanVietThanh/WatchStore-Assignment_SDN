@@ -2,7 +2,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { MemberModel } from "../models/member.model";
 
-type AuthRequest = Request & {
+export type AuthRequest = Request & {
   user?: any;
 };
 

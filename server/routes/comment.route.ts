@@ -6,7 +6,8 @@ import { authMiddleware } from "../middleware/auth.middleware";
 
 export const commentRoutes = express.Router();
 
-commentRoutes.post("/:watchId", validateData(commentValidationSchema), createComment);
 commentRoutes.get("/:watchId", getComments);
+commentRoutes.post("/:watchId", authMiddleware, validateData(commentValidationSchema), createComment);
+
 commentRoutes.put("/:watchId/:commentId", authMiddleware, validateData(commentValidationSchema), updateComment);
 commentRoutes.delete("/:watchId/:commentId", authMiddleware, deleteComment);

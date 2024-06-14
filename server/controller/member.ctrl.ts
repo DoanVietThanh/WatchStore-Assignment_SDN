@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { MemberModel } from "../models/member.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AuthRequest } from "../middleware/auth.middleware";
 
 export const registerMember = async (req: Request, res: Response) => {
   const { memberName, password, name, yob } = req.body;
@@ -61,6 +62,11 @@ export const getAccounts = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", success: false });
   }
+};
+
+export const getCurrentMember = async (req: AuthRequest, res: Response) => {
+  const user = req.user;
+  return res.status(200).json({ data: user, success: true, message: "Get current user successfully" });
 };
 
 export const getMember = async (req: Request, res: Response) => {

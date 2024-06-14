@@ -15,6 +15,11 @@ export const createComment = async (req: Request, res: Response) => {
     if (!existingWatch) {
       return res.status(404).json({ message: "Watch not found", success: false });
     }
+
+    // Check if the member has already commented on the watch
+    if (existingWatch.comments.some((comment) => comment.author.toString() === memberId)) {
+      return res.status(400).json({ message: "Member has already commented on this watch", success: false });
+    }
     const newComment = new CommentModel(req.body);
     const savedComment = await newComment.save();
     existingWatch.comments.push(savedComment);
@@ -31,7 +36,10 @@ export const getComments = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(watchId)) {
       return res.status(400).json({ message: "Invalid watchId", success: false });
     }
-    const existingWatch = await WatchModel.findById(watchId);
+    const existingWatch = await WatchModel.findById(watchId).populate({
+      path: "comments.author",
+      select: "_id memberName name yob",
+    });
     if (!existingWatch) {
       return res.status(404).json({ message: "Watch not found", success: false });
     }

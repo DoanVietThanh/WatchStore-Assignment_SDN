@@ -32,7 +32,7 @@ const SignInPage = () => {
     try {
       const res = await signInMember(values);
       if (res.success) {
-        localStorage.setItem("token", JSON.stringify(res.token));
+        localStorage.setItem("token", res.token);
         toast.success(res.message || "Sign in success");
         router.push("/home");
       }

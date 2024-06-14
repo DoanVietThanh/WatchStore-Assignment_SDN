@@ -3,6 +3,7 @@ import {
   deleteMember,
   getAccounts,
   getAllMembers,
+  getCurrentMember,
   getMember,
   loginMember,
   logoutMember,
@@ -21,6 +22,7 @@ memberRoutes.post("/logout", authMiddleware, logoutMember);
 
 memberRoutes.get("/all-members", authMiddleware, isAdmin, getAllMembers);
 memberRoutes.get("/accounts", authMiddleware, isAdmin, getAccounts);
+memberRoutes.get("/current-member", authMiddleware, getCurrentMember);
 memberRoutes.put("/:id", authMiddleware, updateMember);
 memberRoutes.delete("/:id", authMiddleware, deleteMember);
 memberRoutes.get("/:id", authMiddleware, getMember);
