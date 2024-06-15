@@ -10,12 +10,13 @@ type WatchItemProps = {
 const WatchItem = ({ watch }: WatchItemProps) => {
   return (
     <div className="flex flex-col items-center justify-center border gap-2 p-4 rounded-md">
-      <div className="w-full overflow-hidden transition-all duration-200">
+      <div className="w-full overflow-hidden transition-all duration-200 flex justify-center">
         <Image
           src={watch.image}
           alt={watch.watchName}
-          width={400}
-          height={400}
+          width={600}
+          height={600}
+          layout="intrinsic" // You can also use 'responsive' or 'fill' depending on your use case
           className="transform transition duration-500 ease-in-out hover:scale-105"
         />
       </div>

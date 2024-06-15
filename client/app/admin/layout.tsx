@@ -4,11 +4,9 @@ import { Inter } from "next/font/google";
 
 import SessionWrapper from "@/components/session-wrapper";
 import { Toaster } from "@/components/ui/sonner";
-import FooterPublic from "@/layouts/public-layout/footer-public";
-import HeaderPublic from "@/layouts/public-layout/header-public";
+import HeaderAdmin from "@/layouts/admin-layout/header-admin";
+import SidebarAdmin from "@/layouts/admin-layout/sidebar-admin";
 
-// import FooterPublic from "@/layouts/public-layout/footer-public";
-// import HeaderPublic from "@/layouts/public-layout/header-public";
 import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,18 +24,20 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <SessionWrapper>
-      {/* <AuthMiddleware> */}
       <html lang="en">
         <body className={inter.className}>
-          <div className="flex flex-col justify-between min-h-screen">
-            <HeaderPublic />
-            <div className="container">{children}</div>
-            <FooterPublic />
+          <div className="flex">
+            <div className="w-auto">
+              <SidebarAdmin />
+            </div>
+            <div className="flex-1 flex flex-col justify-between max-h-screen">
+              <HeaderAdmin />
+              <div className="flex-1 overflow-y-auto">{children}</div>
+            </div>
           </div>
           <Toaster position="top-right" richColors theme="light" />
         </body>
       </html>
-      {/* </AuthMiddleware> */}
     </SessionWrapper>
   );
 }

@@ -26,19 +26,20 @@ export const loginMember = async (req: Request, res: Response) => {
     const { memberName, password } = req.body;
     const member = await MemberModel.findOne({ memberName });
     if (!member) {
-      return res.status(404).json({ message: "User not found", success: false });
+      return res.status(404).json({ message: "Invalid username or password", success: false });
     }
     const isPasswordValid = await bcrypt.compare(password, member.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password", success: false });
+    if (!isPasswordValid || !member) {
+      return res.status(401).json({ message: "Invalid username or password", success: false });
     }
     const token = jwt.sign({ id: member._id }, process.env.JWT_SECRET!, {
       expiresIn: "1d",
     });
+    const memberWithoutPassword = await MemberModel.findOne({ memberName }).select("-password");
     return res
       .status(200)
       .cookie("token", token, { secure: true, httpOnly: true })
-      .json({ message: "Login successful", data: member, token, success: true });
+      .json({ message: "Login successful", data: memberWithoutPassword, token, success: true });
   } catch (error: any) {
     res.status(500).json({ message: error.message, success: false });
   }

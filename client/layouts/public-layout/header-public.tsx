@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -16,11 +17,13 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMemberStore } from "@/store/memberStore";
 const HeaderPublic = () => {
   const { data } = useSession();
+
   const user = data?.user;
   return (
-    <div className="border flex items-center justify-between px-8 py-2 mb-4">
+    <div className="container flex items-center justify-between px-8 py-2 mb-4">
       <Image
         src="https://theme.hstatic.net/200000656863/1001222351/14/logo.png?v=377"
         alt="logo"

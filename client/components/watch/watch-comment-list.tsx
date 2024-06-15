@@ -1,7 +1,8 @@
 import React from "react";
 
 import { fetchComments } from "@/actions/comment.action";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { dateFormat } from "@/lib/convert-date";
 type WatchCommentListProps = { watchId: string };
 
 const WatchCommentList = async ({ watchId }: WatchCommentListProps) => {
@@ -11,16 +12,20 @@ const WatchCommentList = async ({ watchId }: WatchCommentListProps) => {
     return <div>No comment</div>;
   }
 
-  console.log("🚀 ~ WatchCommentList ~ commentList:", commentList);
   return (
-    <div>
+    <div className="flex flex-col px-8 gap-4">
       {commentList?.data?.map((item: any) => (
-        <div key={item._id}>
-          <div>Content: {item.content}</div>
-          <div>Rating: {item.rating}</div>
-          <div>Member Name: {item.author.memberName}</div>
-          <div>Name: {item.author.name}</div>
-          <div>YOB: {item.author.yob}</div>
+        <div key={item._id} className="flex flex-col gap-2 border p-4 rounded-2xl shadow-lg">
+          <div className="flex gap-4 items-center">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>{item.author.name}</AvatarFallback>
+            </Avatar>
+            <div className="font-serif text-2xl font-semibold">{item.author.memberName}</div>
+            <div>{Array.from({ length: item.rating }).map(() => "⭐️")}</div>
+            <div className="font-semibold">{dateFormat(item.createdAt)}</div>
+          </div>
+          <div>{item.content}</div>
         </div>
       ))}
     </div>

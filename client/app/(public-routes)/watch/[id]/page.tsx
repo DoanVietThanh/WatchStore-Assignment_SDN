@@ -27,7 +27,7 @@ const DetailWatch = async ({ params }: DetailWatchProps) => {
   }
   return (
     <div className="flex-1 px-8">
-      <div>
+      <div className="mb-4 font-semibold">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -43,7 +43,7 @@ const DetailWatch = async ({ params }: DetailWatchProps) => {
       <div className="flex flex-col gap-8">
         <div className="flex justify-evenly gap-8">
           <div className="">
-            <div className="w-full flex justify-center items-center p-4 border">
+            <div className="w-full flex justify-center items-center p-4">
               <Image
                 src={watchInfo?.data.image}
                 alt="watch img"

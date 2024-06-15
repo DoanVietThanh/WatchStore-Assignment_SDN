@@ -42,7 +42,7 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
   };
 
   return (
-    <section className="p-8">
+    <section className="">
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="mb-4 text-3xl lg:text-4xl text-gray-800 dark:text-white font-serif">Comment</h2>
       </div>

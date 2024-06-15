@@ -21,11 +21,14 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <SessionWrapper>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
+    <html lang="en">
+      <head>
+        <style>{`body { font-family: ${inter.className}; }`}</style>
+      </head>
+      <body>
+        <SessionWrapper>{children}</SessionWrapper>
         <Toaster position="top-right" richColors theme="light" />
-      </html>
-    </SessionWrapper>
+      </body>
+    </html>
   );
 }
