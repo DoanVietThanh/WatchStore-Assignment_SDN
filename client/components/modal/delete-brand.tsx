@@ -1,7 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { revalidatePath } from "next/cache";
+import { redirect, useRouter } from "next/navigation";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
+import { deleteBrand } from "@/actions/brand.action";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +24,22 @@ type DeleteBrandModalProps = {
 };
 
 const DeleteBrandModal = ({ brand }: DeleteBrandModalProps) => {
+  const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
+  const handleDeleteBrand = async () => {
+    try {
+      const res = await deleteBrand(brand._id);
+      if (res.success) {
+        toast.success(res.message || "Delete brand success");
+        setOpen(false);
+        router.push("/admin/manage-brand");
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred while deleting brand");
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -34,7 +53,7 @@ const DeleteBrandModal = ({ brand }: DeleteBrandModalProps) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button type="submit" variant={"destructive"}>
+          <Button type="submit" variant={"destructive"} onClick={() => handleDeleteBrand()}>
             Delete
           </Button>
           <Button onClick={() => setOpen(false)}>Cancel</Button>

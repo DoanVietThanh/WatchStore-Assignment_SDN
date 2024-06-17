@@ -20,7 +20,6 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
     try {
       const currentMember = await getCurrentMember(localStorage.getItem("token") as string);
       const comment = await createComment(
-        localStorage.getItem("token") as string,
         {
           rating: 3,
           content,
