@@ -23,7 +23,7 @@ const HeaderPublic = () => {
 
   const user = data?.user;
   return (
-    <div className="container flex items-center justify-between px-8 py-2 mb-4">
+    <div className="flex items-center justify-between px-10 py-2 mb-4 border shadow-md">
       <Image
         src="https://theme.hstatic.net/200000656863/1001222351/14/logo.png?v=377"
         alt="logo"
@@ -74,9 +74,9 @@ const HeaderPublic = () => {
             <Button variant={"default"} onClick={() => {}} asChild>
               <Link href="/sign-in">Sign In</Link>
             </Button>
-            <Button variant={"link"} onClick={() => signIn()}>
+            {/* <Button variant={"link"} onClick={() => signIn()}>
               Login Next-Auth
-            </Button>
+            </Button> */}
           </div>
         )}
       </div>

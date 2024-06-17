@@ -1,7 +1,7 @@
 import { serialize } from "@/lib/serialize-query-string";
 import { getToken } from "@/lib/utils";
 import { SearchParams } from "@/types/search-params.types";
-import { WatchItemType } from "@/types/watch.types";
+import { CreateWatchItemType, WatchItemType } from "@/types/watch.types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -15,7 +15,7 @@ export const fetchAllWatch = async (searchParams?: SearchParams) => {
     const data = await response.json();
     return data;
   } catch (error: any) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -41,6 +41,39 @@ export const updateWatch = async (watchId: string, dataWatch: any) => {
         Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(dataWatch),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const createWatch = async (watch: CreateWatchItemType) => {
+  try {
+    const response = await fetch(`${SERVER_URL}/watch`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify(watch),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const deleteWatch = async (id: string) => {
+  try {
+    const response = await fetch(`${SERVER_URL}/watch/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     const data = await response.json();
     return data;

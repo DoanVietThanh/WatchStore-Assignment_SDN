@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { BrandModel } from "../models/brand.model";
+import { WatchModel } from "../models/watch.model";
 
 export const getBrand = async (req: Request, res: Response) => {
   try {
@@ -61,10 +62,17 @@ export const updateBrand = async (req: Request, res: Response) => {
 
 export const deleteBrand = async (req: Request, res: Response) => {
   try {
-    const deletedBrand = await BrandModel.findByIdAndDelete(req.params.id);
+    const brandId = req.params.id;
+    const relatedWatches = await WatchModel.findOne({ brand: brandId });
+    if (relatedWatches) {
+      return res.status(400).json({ message: "Cannot delete brand with related watches", success: false });
+    }
+
+    const deletedBrand = await BrandModel.findByIdAndDelete(brandId);
     if (!deletedBrand) {
       return res.status(404).json({ message: "Brand not found", success: false });
     }
+
     return res.status(200).json({ data: deletedBrand, success: true, message: "Delete brand successfully" });
   } catch (error: any) {
     return res.status(500).json({ message: error.message, success: false });

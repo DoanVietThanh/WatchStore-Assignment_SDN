@@ -9,7 +9,6 @@ type ManageBrandProps = {
 
 const ManageBrand = async ({ params }: ManageBrandProps) => {
   const brands = await fetchBrands();
-  console.log("🚀 ~ ManageBrand ~ brands:", brands);
 
   if (!brands) {
     return <div>No brands found</div>;

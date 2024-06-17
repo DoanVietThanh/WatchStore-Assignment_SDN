@@ -26,29 +26,30 @@ const formSchema = z.object({
 });
 
 const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const [currentBrandName, setCurrentBrandName] = useState<string>(type === "update" && brand ? brand.brandName : "");
   const router = useRouter();
+  const [open, setOpen] = useState<boolean>(false);
+  const [currentBrandName, setCurrentBrandName] = useState<string>(type === "update" && brand ? brand.brandName : "");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       brandName: type === "update" && brand ? brand.brandName : "",
     },
   });
+
   useEffect(() => {
     if (open) {
       form.reset({ brandName: currentBrandName });
     }
   }, [open, currentBrandName, form, type]);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       if (type == "update" && brand) {
         const res = await updateBrand(brand._id, values);
         if (res.success) {
-          toast.success(res.message || "Edit brand success");
+          toast.success(res.message || "Edit brand successfully");
           setCurrentBrandName(values.brandName);
-          form.reset(values);
           setOpen(false);
           router.refresh();
         } else {
@@ -57,7 +58,7 @@ const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => 
       } else {
         const res = await createBrand(values);
         if (res.success) {
-          toast.success(res.message || "Create brand success");
+          toast.success(res.message || "Create brand successfully");
           setCurrentBrandName("");
           setOpen(false);
           router.refresh();
@@ -81,7 +82,8 @@ const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => 
           <Edit size={20} className="cursor-pointer" />
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+
+      <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
           <DialogTitle>{type == "create" ? "Create Brand" : "Edit Brand"}</DialogTitle>
         </DialogHeader>

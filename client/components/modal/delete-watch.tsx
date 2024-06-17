@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
+import { deleteWatch } from "@/actions/watch.action";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +24,20 @@ type DeleteWatchModalProps = {
 
 const DeleteWatchModal = ({ watch }: DeleteWatchModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
+  const handleDeleteWatch = async () => {
+    try {
+      const res = await deleteWatch(watch._id);
+      if (res.success) {
+        toast.success(res.message || "Delete watch success");
+        setOpen(false);
+        router.push("/admin/manage-watch");
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred while deleting watch");
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -34,7 +51,7 @@ const DeleteWatchModal = ({ watch }: DeleteWatchModalProps) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button type="submit" variant={"destructive"}>
+          <Button type="submit" variant={"destructive"} onClick={handleDeleteWatch}>
             Delete
           </Button>
           <Button onClick={() => setOpen(false)}>Cancel</Button>

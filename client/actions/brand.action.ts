@@ -1,5 +1,3 @@
-import { revalidatePath } from "next/cache";
-
 import { getToken } from "@/lib/utils";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;

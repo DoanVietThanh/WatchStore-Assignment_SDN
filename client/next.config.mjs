@@ -23,6 +23,26 @@ const nextConfig = {
         protocol: "https",
         hostname: "citizenwatch.widen.net",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.tgdd.vn",
+      },
+      {
+        protocol: "https",
+        hostname: "empireluxury.vn",
+      },
+      {
+        protocol: "https",
+        hostname: "bizweb.dktcdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "media.rolex.com",
+      },
+      {
+        protocol: "https",
+        hostname: "donghoduyanh.com",
+      },
     ],
   },
 };
