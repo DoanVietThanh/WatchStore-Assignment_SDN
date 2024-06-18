@@ -32,3 +32,19 @@ export const fetchComments = async (watchId: string) => {
   const data = await response.json();
   return data;
 };
+
+export const deleteComment = async (watchId: string, commentId: string) => {
+  const response = await fetch(`${SERVER_URL}/comment/${watchId}/${commentId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "An error occurred while deleting comment");
+  }
+  const data = await response.json();
+  return data;
+};
