@@ -18,6 +18,7 @@ const BestSeller = () => {
                 alt="watch"
                 width={200}
                 height={200}
+                layout="intrinsic"
               />
             </div>
             <h1 className="text-2xl font-serif">Sport Luxury</h1>

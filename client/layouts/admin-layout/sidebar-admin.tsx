@@ -30,6 +30,7 @@ const SidebarAdmin = () => {
           alt="logo"
           width={150}
           height={150}
+          layout="intrinsic"
         />
       </div>
       <div className="flex flex-col mt-2">

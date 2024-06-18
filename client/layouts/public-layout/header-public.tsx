@@ -1,11 +1,9 @@
 "use client";
-import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { LogOut, Settings, User } from "lucide-react";
 
-import Searchbar from "@/components/searchbar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,22 +15,22 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMemberStore } from "@/store/memberStore";
 const HeaderPublic = () => {
   const { data } = useSession();
 
   const user = data?.user;
   return (
     <div className="flex items-center justify-between px-10 py-2 mb-4 border shadow-md">
-      <Image
-        src="https://theme.hstatic.net/200000656863/1001222351/14/logo.png?v=377"
-        alt="logo"
-        width={150}
-        height={150}
-      />
-      <div className="flex-1 text-center">
-        <Searchbar />
-      </div>
+      <Link href={"/"}>
+        <Image
+          src="https://theme.hstatic.net/200000656863/1001222351/14/logo.png?v=377"
+          alt="logo"
+          width={150}
+          height={150}
+          layout="intrinsic"
+        />
+      </Link>
+
       <div>
         {user ? (
           <DropdownMenu>

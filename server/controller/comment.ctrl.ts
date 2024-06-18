@@ -104,8 +104,6 @@ export const deleteComment = async (req: Request, res: Response) => {
 
     // Find the comment within the watch's comments array
     const comment = watch.comments.id(commentId);
-    console.log("🚀 ~ deleteComment ~ comment:", comment);
-    console.log("🚀 ~ deleteComment ~ comments:", watch.comments);
     if (!comment) {
       return res.status(404).json({ message: "Comment not found", success: false });
     }

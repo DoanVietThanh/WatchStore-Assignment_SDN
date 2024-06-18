@@ -30,6 +30,5 @@ export const fetchComments = async (watchId: string) => {
     throw new Error(errorData.message || "An error occurred while fetching comments");
   }
   const data = await response.json();
-  console.log("🚀 ~ fetchComments ~ data:", data);
   return data;
 };

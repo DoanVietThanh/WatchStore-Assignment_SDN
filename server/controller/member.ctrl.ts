@@ -59,7 +59,7 @@ export const getAllMembers = async (req: Request, res: Response) => {
 export const getAccounts = async (req: Request, res: Response) => {
   try {
     const members = await MemberModel.find({ isAdmin: false }).select("-password");
-    return res.status(200).json({ data: members, success: true });
+    return res.status(200).json({ data: members, message: "Get accounts successfully", success: true });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", success: false });
   }

@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getToken() {
-  return localStorage.getItem("token") as string;
+  return (localStorage.getItem("token") as string) || "";
 }

@@ -27,7 +27,6 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
         },
         watchId
       );
-      console.log("🚀 ~ handleComment ~ comment:", comment);
       if (comment.success) {
         setContent("");
         toast.success(comment.message || "Comment success");

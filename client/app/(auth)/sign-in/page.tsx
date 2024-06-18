@@ -33,13 +33,12 @@ const SignInPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const res = await signInMember(values);
-      console.log("🚀 ~ onSubmit ~ res:", res.data);
       if (res.success) {
         setMember(res?.data);
         localStorage.setItem("token", res.token);
         toast.success(res.message || "Sign in success");
         if (res?.data.isAdmin) {
-          router.push("/admin");
+          router.push("/admin/manage-user");
         } else router.push("/home");
       }
     } catch (err: any) {
