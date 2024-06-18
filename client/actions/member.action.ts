@@ -1,4 +1,3 @@
-import { getToken } from "@/lib/utils";
 import { MemberType } from "@/types/member.types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL!;
@@ -68,6 +67,44 @@ export const fetchAccounts = async (token: string) => {
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "An error occurred while fetching accounts");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const updatePassword = async (
+  token: string,
+  memberId: string,
+  values: { oldPassword: string; confirmedPassword: string; newPassword: string }
+) => {
+  const response = await fetch(`${SERVER_URL}/member/${memberId}/update-password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(values),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "An error occurred while updating password");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const updateProfile = async (token: string, memberId: string, values: any) => {
+  const response = await fetch(`${SERVER_URL}/member/${memberId}/update-profile`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(values),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "An error occurred while updating password");
   }
   const data = await response.json();
   return data;

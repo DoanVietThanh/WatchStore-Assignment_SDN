@@ -94,6 +94,41 @@ export const updateMember = async (req: Request, res: Response) => {
   }
 };
 
+export const updatePassword = async (req: Request, res: Response) => {
+  try {
+    const { oldPassword, confirmedPassword, newPassword } = req.body;
+    const member = await MemberModel.findById(req.params.memberId);
+    if (!member) {
+      return res.status(404).json({ message: "Member not found", success: false });
+    }
+    if (oldPassword !== confirmedPassword) {
+      return res.status(400).json({ message: "Passwords do not match", success: false });
+    }
+    const isPasswordValid = await bcrypt.compare(oldPassword, member.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Wrong password", success: false });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    member.password = hashedPassword;
+    await member.save();
+    return res.status(200).json({ message: "Password updated successfully", success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const updatedMember = await MemberModel.findByIdAndUpdate(req.params.memberId, req.body, { new: true });
+    if (!updatedMember) {
+      return res.status(404).json({ message: "Member not found", success: false });
+    }
+    return res.status(200).json({ data: updatedMember, message: "Update profile successfully", success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
+};
+
 export const deleteMember = async (req: Request, res: Response) => {
   try {
     const deletedMember = await MemberModel.findByIdAndDelete(req.params.id);

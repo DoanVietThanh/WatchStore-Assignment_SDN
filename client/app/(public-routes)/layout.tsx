@@ -31,7 +31,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body className={inter.className}>
           <div className="flex flex-col justify-between min-h-screen">
             <HeaderPublic />
-            <div className="container">{children}</div>
+            <div className="container flex-1">{children}</div>
             <FooterPublic />
           </div>
           <Toaster position="top-right" richColors theme="light" />

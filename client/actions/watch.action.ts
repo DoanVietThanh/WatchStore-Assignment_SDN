@@ -1,7 +1,7 @@
+import { getToken } from "@/lib/manage-state-client";
 import { serialize } from "@/lib/serialize-query-string";
-import { getToken } from "@/lib/utils";
 import { SearchParams } from "@/types/search-params.types";
-import { CreateWatchItemType, WatchItemType } from "@/types/watch.types";
+import { CreateWatchItemType } from "@/types/watch.types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 

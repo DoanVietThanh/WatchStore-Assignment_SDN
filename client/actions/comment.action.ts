@@ -1,4 +1,4 @@
-import { getToken } from "@/lib/utils";
+import { getToken } from "@/lib/manage-state-client";
 import { CommentType } from "@/types/comment.types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;

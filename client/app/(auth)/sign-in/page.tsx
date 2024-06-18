@@ -8,7 +8,6 @@ import { signInMember } from "@/actions/member.action";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMemberStore } from "@/store/memberStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
@@ -20,13 +19,12 @@ const formSchema = z.object({
   }),
 });
 const SignInPage = () => {
-  const { setMember, member } = useMemberStore((state) => state);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      memberName: "",
-      password: "",
+      memberName: "admin",
+      password: "123456",
     },
   });
 
@@ -34,8 +32,8 @@ const SignInPage = () => {
     try {
       const res = await signInMember(values);
       if (res.success) {
-        setMember(res?.data);
         localStorage.setItem("token", res.token);
+        localStorage.setItem("userInfo", JSON.stringify(res?.data));
         toast.success(res.message || "Sign in success");
         if (res?.data.isAdmin) {
           router.push("/admin/manage-user");
