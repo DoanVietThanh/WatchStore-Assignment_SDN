@@ -13,19 +13,23 @@ const WatchCommentList = async ({ watchId }: WatchCommentListProps) => {
   }
 
   return (
-    <div className="flex flex-col px-8 gap-4">
+    <div className="flex flex-col gap-4">
       {commentList?.data?.map((item: any) => (
-        <div key={item._id} className="flex flex-col gap-2 border p-4 rounded-2xl shadow-lg">
-          <div className="flex gap-4 items-center">
+        <div key={item._id} className="flex flex-col gap-2 border p-4 rounded-2xl shadow-lg hover:bg-slate-50">
+          <div className="flex gap-4 items-center px-4">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>{item.author.name}</AvatarFallback>
             </Avatar>
-            <div className="font-serif text-2xl font-semibold">{item.author.memberName}</div>
-            <div>{Array.from({ length: item.rating }).map(() => "⭐️")}</div>
-            <div className="font-semibold">{dateFormat(item.createdAt)}</div>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-4">
+                <div className="font-serif text-2xl font-semibold">{item.author.memberName}</div>
+                <div className="font-semibold">{dateFormat(item.createdAt)}</div>
+              </div>
+              <div className="italic">Rating {Array.from({ length: item.rating }).map(() => "⭐️")}</div>
+            </div>
           </div>
-          <div>{item.content}</div>
+          <div className="p-4 font-medium">{item.content}</div>
         </div>
       ))}
     </div>

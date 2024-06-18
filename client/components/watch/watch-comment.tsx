@@ -1,6 +1,7 @@
 "use client";
-import React, { FormEvent, useState } from "react";
-import { revalidatePath } from "next/cache";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { StarIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { createComment } from "@/actions/comment.action";
@@ -14,14 +15,17 @@ type WatchCommentProps = {
 };
 
 const WatchComment = ({ watchId }: WatchCommentProps) => {
+  const router = useRouter();
+  const [rating, setRating] = useState<number>(2);
   const [content, setContent] = useState<string>("");
+
   const handleComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const currentMember = await getCurrentMember(localStorage.getItem("token") as string);
       const comment = await createComment(
         {
-          rating: 3,
+          rating,
           content,
           author: currentMember.data._id,
         },
@@ -29,8 +33,9 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
       );
       if (comment.success) {
         setContent("");
+        setRating(2);
+        router.refresh();
         toast.success(comment.message || "Comment success");
-        revalidatePath(`/watch/${watchId}`);
       } else {
         toast.error(comment.message || "Comment failed");
       }
@@ -49,8 +54,23 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
           required
           placeholder="Type your message here."
           value={content}
+          rows={5}
           onChange={(e) => setContent(e.target.value)}
+          className="p-4 shadow-md rounded-md"
         />
+        <div className="pt-4 flex items-center gap-4">
+          <h3 className="text-medium font-bold">{rating > 1 ? `Ratings (${rating})` : `Rating (${rating})`}</h3>
+          {[1, 2, 3].map((item, index) => (
+            <span key={index}>
+              <StarIcon
+                onClick={() => setRating(item)}
+                className={`font-bold h-5 w-5 cursor-pointer ${item <= rating ? "text-[#FFFF00]" : "text-gray-400"}`}
+                fill="yellow"
+                fillOpacity={item <= rating ? 1 : 0}
+              />
+            </span>
+          ))}
+        </div>
         <Button variant={"default"} className="mt-4" type="submit">
           Submit
         </Button>

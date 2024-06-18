@@ -44,7 +44,9 @@ const ManageWatch = async () => {
                 <TableCell>
                   <Image src={watch.image} alt={watch.watchName} width={100} height={100} layout="intrinsic" />
                 </TableCell>
-                <TableCell className="text-md text-yellow-600 font-semibold ">${watch.price}</TableCell>
+                <TableCell className="text-md text-yellow-600 font-semibold ">
+                  ${watch.price.toLocaleString()}
+                </TableCell>
                 <TableCell>
                   <div className="text-center flex justify-center items-center">
                     {watch.automatic ? <CircleCheck color="green" /> : <CircleX color="red" />}
