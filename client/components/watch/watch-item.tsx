@@ -9,21 +9,23 @@ type WatchItemProps = {
 
 const WatchItem = ({ watch }: WatchItemProps) => {
   return (
-    <div className="flex flex-col items-center justify-center border gap-2 p-4 rounded-md">
-      <div className="w-full overflow-hidden transition-all duration-200 flex justify-center">
+    <div className="flex flex-col items-center justify-between border gap-2 p-4 rounded-md">
+      <div className="w-full h-full overflow-hidden transition-all duration-200 flex justify-center">
         <Image
+          width={200}
+          height={200}
           src={watch.image}
           alt={watch.watchName}
-          width={600}
-          height={600}
           layout="intrinsic" // You can also use 'responsive' or 'fill' depending on your use case
-          className="transform transition duration-500 ease-in-out hover:scale-105"
+          className="hover:scale-110 transition duration-500 ease-in-out"
         />
       </div>
-      <Link href={`/watch/${watch._id}`} className="text-xl font-semibold hover:text-yellow-600">
-        {watch.watchName}
-      </Link>
-      <p className="text-xl text-yellow-600">{watch.brand.brandName}</p>
+      <div className="text-center">
+        <Link href={`/watch/${watch._id}`} className="text-xl font-semibold hover:text-yellow-600">
+          {watch.watchName}
+        </Link>
+        <p className="text-xl text-yellow-600">{watch.brand.brandName}</p>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,6 @@
+"use server";
+import { cookies } from "next/headers";
+
 import { MemberType } from "@/types/member.types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL!;
@@ -17,6 +20,9 @@ export const signInMember = async (values: { memberName: string; password: strin
   }
 
   const responseData = await response.json();
+  cookies().set("token", responseData?.token);
+  cookies().set("userInfo", responseData?.data);
+
   return responseData;
 };
 
@@ -38,12 +44,12 @@ export const signUpMember = async (values: MemberType) => {
   return responseData;
 };
 
-export const getCurrentMember = async (token: string) => {
+export const getCurrentMember = async () => {
   const response = await fetch(`${SERVER_URL}/member/current-member`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     cache: "no-store",
   });
@@ -55,12 +61,12 @@ export const getCurrentMember = async (token: string) => {
   return responseData;
 };
 
-export const fetchAccounts = async (token: string) => {
+export const fetchAccounts = async () => {
   const response = await fetch(`${SERVER_URL}/member/accounts`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     cache: "no-store",
   });
@@ -73,7 +79,6 @@ export const fetchAccounts = async (token: string) => {
 };
 
 export const updatePassword = async (
-  token: string,
   memberId: string,
   values: { oldPassword: string; confirmedPassword: string; newPassword: string }
 ) => {
@@ -81,7 +86,7 @@ export const updatePassword = async (
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     body: JSON.stringify(values),
   });
@@ -93,12 +98,12 @@ export const updatePassword = async (
   return data;
 };
 
-export const updateProfile = async (token: string, memberId: string, values: any) => {
+export const updateProfile = async (memberId: string, values: any) => {
   const response = await fetch(`${SERVER_URL}/member/${memberId}/update-profile`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     body: JSON.stringify(values),
   });

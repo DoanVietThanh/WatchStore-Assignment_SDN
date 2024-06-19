@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getToken, getUserInfo } from "@/lib/manage-state-client";
+import { getUserInfo } from "@/lib/manage-state-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z
@@ -42,7 +42,7 @@ export function UpdatePasswordModal() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await updatePassword(getToken(), userInfo._id as string, values);
+      const res = await updatePassword(userInfo._id as string, values);
       if (res.success) {
         toast.success(res.message || "Update password successfully");
         router.refresh();

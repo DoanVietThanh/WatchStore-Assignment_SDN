@@ -22,7 +22,6 @@ type DetailWatchProps = {
 
 const DetailWatch = async ({ params }: DetailWatchProps) => {
   const watchInfo = await fetchWatch(params.id);
-  console.log("🚀 ~ DetailWatch ~ watchInfo:", watchInfo);
   const commentInfo = await fetchComments(params.id);
   if (!watchInfo) {
     return <div>Watch not found</div>;
@@ -56,7 +55,7 @@ const DetailWatch = async ({ params }: DetailWatchProps) => {
               />
             </div>
           </div>
-          <div className="w-[40vw] h-auto">
+          <div className="w-[40vw] h-auto text-justify">
             <div className="h-full flex flex-col gap-4 overflow-hidden justify-between p-4">
               <h2 className="font-serif text-3xl font-semibold text-yellow-700">{watchInfo?.data.watchName}</h2>
               {!watchInfo?.data.automatic && <p className="text-xl font-serif font-light">Automatic</p>}

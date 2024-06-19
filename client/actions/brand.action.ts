@@ -1,4 +1,5 @@
-import { getToken } from "@/lib/manage-state-client";
+"use server";
+import { cookies } from "next/headers";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -23,7 +24,7 @@ export const updateBrand = async (id: string, brand: any) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     body: JSON.stringify(brand),
   });
@@ -40,7 +41,7 @@ export const createBrand = async (brand: any) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     body: JSON.stringify(brand),
   });
@@ -57,7 +58,7 @@ export const deleteBrand = async (id: string) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
   });
   if (!response.ok) {

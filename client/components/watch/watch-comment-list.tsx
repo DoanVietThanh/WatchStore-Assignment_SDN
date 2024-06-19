@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 
 import { fetchComments } from "@/actions/comment.action";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

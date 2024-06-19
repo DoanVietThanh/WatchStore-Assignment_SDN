@@ -5,7 +5,6 @@ import Image from "next/image";
 import { getCurrentMember } from "@/actions/member.action";
 import { UpdatePasswordModal } from "@/components/modal/update-password";
 import { UpdateProfileModal } from "@/components/modal/update-profile";
-import { getToken } from "@/lib/manage-state-client";
 import { MemberType } from "@/types/member.types";
 
 const ProfileDetailPage = () => {
@@ -13,8 +12,7 @@ const ProfileDetailPage = () => {
 
   useEffect(() => {
     async function fetchUserInfo() {
-      const token = getToken();
-      const user = await getCurrentMember(token).then((data) => data.data);
+      const user = await getCurrentMember().then((data) => data.data);
       setUserInfo(user);
     }
     fetchUserInfo();

@@ -22,7 +22,7 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
   const handleComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const currentMember = await getCurrentMember(localStorage.getItem("token") as string);
+      const currentMember = await getCurrentMember();
       const comment = await createComment(
         {
           rating,
@@ -34,7 +34,6 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
       if (comment.success) {
         setContent("");
         setRating(2);
-        router.refresh();
         toast.success(comment.message || "Comment success");
       } else {
         toast.error(comment.message || "Comment failed");

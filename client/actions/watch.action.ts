@@ -1,4 +1,6 @@
-import { getToken } from "@/lib/manage-state-client";
+"use server";
+import { cookies } from "next/headers";
+
 import { serialize } from "@/lib/serialize-query-string";
 import { SearchParams } from "@/types/search-params.types";
 import { CreateWatchItemType } from "@/types/watch.types";
@@ -38,7 +40,7 @@ export const updateWatch = async (watchId: string, dataWatch: any) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${cookies().get("token")?.value as string}`,
       },
       body: JSON.stringify(dataWatch),
     });
@@ -55,7 +57,7 @@ export const createWatch = async (watch: CreateWatchItemType) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${cookies().get("token")?.value as string}`,
       },
       body: JSON.stringify(watch),
     });
@@ -72,7 +74,7 @@ export const deleteWatch = async (id: string) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${cookies().get("token")?.value as string}`,
       },
     });
     const data = await response.json();

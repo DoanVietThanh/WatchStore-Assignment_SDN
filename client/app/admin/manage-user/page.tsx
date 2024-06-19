@@ -4,16 +4,14 @@ import { toast } from "sonner";
 
 import { fetchAccounts } from "@/actions/member.action";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getToken } from "@/lib/manage-state-client";
 import { MemberType } from "@/types/member.types";
 
 const ManageUser = () => {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
-    let token = getToken();
     async function getAccounts() {
-      await fetchAccounts(token)
+      await fetchAccounts()
         .then((data) => {
           setAccounts(data.data);
         })
