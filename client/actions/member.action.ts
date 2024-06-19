@@ -58,7 +58,7 @@ export const getCurrentMember = async () => {
     throw new Error(errorData.message || "An error occurred while getting current member");
   }
   const responseData = await response.json();
-  return responseData;
+  return responseData.data;
 };
 
 export const fetchAccounts = async () => {
@@ -75,7 +75,7 @@ export const fetchAccounts = async () => {
     throw new Error(errorData.message || "An error occurred while fetching accounts");
   }
   const data = await response.json();
-  return data;
+  return data.data;
 };
 
 export const updatePassword = async (

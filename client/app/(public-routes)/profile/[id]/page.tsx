@@ -1,25 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { getCurrentMember } from "@/actions/member.action";
 import { UpdatePasswordModal } from "@/components/modal/update-password";
 import { UpdateProfileModal } from "@/components/modal/update-profile";
-import { MemberType } from "@/types/member.types";
 
-const ProfileDetailPage = () => {
-  const [userInfo, setUserInfo] = useState<MemberType>();
-
-  useEffect(() => {
-    async function fetchUserInfo() {
-      const user = await getCurrentMember().then((data) => data.data);
-      setUserInfo(user);
-    }
-    fetchUserInfo();
-  }, []);
+const ProfileDetailPage = async () => {
+  const userInfo = await getCurrentMember();
 
   if (!userInfo) {
-    return <div>Loading...</div>;
+    return <div>Member not found</div>;
   }
 
   return (
@@ -44,8 +33,8 @@ const ProfileDetailPage = () => {
           <span>Year of birth</span>
           <span className="font-medium ml-8">{userInfo?.yob}</span>
         </div>
-        <UpdateProfileModal />
-        <UpdatePasswordModal />
+        <UpdateProfileModal userInfo={userInfo} />
+        <UpdatePasswordModal userInfo={userInfo} />
       </div>
     </div>
   );

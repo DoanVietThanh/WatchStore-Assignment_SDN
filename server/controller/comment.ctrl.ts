@@ -11,6 +11,12 @@ export const createComment = async (req: Request, res: Response) => {
     if (!existingMember) {
       return res.status(404).json({ message: "Member not found", success: false });
     }
+
+    // Check admin not allowed to comment
+    if (existingMember.isAdmin) {
+      return res.status(400).json({ message: "Admin not allow to comment", success: false });
+    }
+
     const existingWatch = await WatchModel.findById(watchId);
     if (!existingWatch) {
       return res.status(404).json({ message: "Watch not found", success: false });

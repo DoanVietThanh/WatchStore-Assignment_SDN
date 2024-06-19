@@ -33,8 +33,6 @@ const SignInPage = () => {
     try {
       const res = await signInMember(values);
       if (res.success) {
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("userInfo", JSON.stringify(res?.data));
         toast.success(res.message || "Sign in success");
         if (res?.data.isAdmin) {
           router.push("/admin/manage-user");

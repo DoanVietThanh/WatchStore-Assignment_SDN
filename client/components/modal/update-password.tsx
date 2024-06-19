@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getUserInfo } from "@/lib/manage-state-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z
@@ -27,9 +26,12 @@ const formSchema = z
     path: ["confirmedPassword"],
   });
 
-export function UpdatePasswordModal() {
+type UpdatePasswordModalProps = {
+  userInfo: any;
+};
+
+export function UpdatePasswordModal({ userInfo }: UpdatePasswordModalProps) {
   const router = useRouter();
-  const userInfo = getUserInfo();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

@@ -1,31 +1,20 @@
-"use client";
-import { useEffect, useState } from "react";
 import { Edit } from "lucide-react";
 
 import { fetchComments } from "@/actions/comment.action";
+import { getCurrentMember } from "@/actions/member.action";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { dateFormat } from "@/lib/convert-date";
-import { getUserInfo } from "@/lib/manage-state-client";
 
 import { DeleteCommentModal } from "../modal/delete-comment";
 
 type WatchCommentListProps = { watchId: string };
 
-const WatchCommentList = ({ watchId }: WatchCommentListProps) => {
-  const userInfo = getUserInfo();
-  const [openDeleteComment, setOpenDeleteComment] = useState(false);
-  const [commentList, setCommentList] = useState<any>();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const commentList = await fetchComments(watchId);
-      setCommentList(commentList);
-    };
-    fetchData();
-  }, [watchId, openDeleteComment]);
+const WatchCommentList = async ({ watchId }: WatchCommentListProps) => {
+  const userInfo = await getCurrentMember();
+  const commentList = await fetchComments(watchId);
 
   if (!commentList) {
-    return <div>No comment</div>;
+    return <div className="container">No comment</div>;
   }
 
   return (
@@ -54,12 +43,7 @@ const WatchCommentList = ({ watchId }: WatchCommentListProps) => {
             {item.author._id === userInfo?._id && (
               <div className="flex gap-4 items-center">
                 <Edit className="cursor-none mr-2 h-6 w-6" />
-                <DeleteCommentModal
-                  watchId={watchId}
-                  commentId={item._id}
-                  open={openDeleteComment}
-                  setOpen={setOpenDeleteComment}
-                />
+                <DeleteCommentModal watchId={watchId} commentId={item._id} />
               </div>
             )}
           </div>

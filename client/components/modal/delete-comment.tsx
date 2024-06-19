@@ -1,5 +1,4 @@
 "use client";
-import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
@@ -7,24 +6,22 @@ import { toast } from "sonner";
 import { deleteComment } from "@/actions/comment.action";
 import {
   AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle, 
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-import { Button } from "../ui/button";
 
 type DeleteCommentModalProps = {
   watchId: string;
   commentId: string;
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export function DeleteCommentModal({ watchId, commentId, open, setOpen }: DeleteCommentModalProps) {
+export function DeleteCommentModal({ watchId, commentId }: DeleteCommentModalProps) {
   const router = useRouter();
 
   const handleDeleteComment = async () => {
@@ -32,8 +29,6 @@ export function DeleteCommentModal({ watchId, commentId, open, setOpen }: Delete
       const res = await deleteComment(watchId, commentId);
       if (res.success) {
         toast.success(res.message || "Delete comment success");
-        setOpen(false);
-        router.push(`/watch/${watchId}`);
         router.refresh();
       } else {
         toast.error(res.message || "An error occurred while deleting comment");
@@ -44,7 +39,7 @@ export function DeleteCommentModal({ watchId, commentId, open, setOpen }: Delete
   };
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>
         <Trash className="cursor-pointer mr-2 h-6 w-6" color="red" />
       </AlertDialogTrigger>
@@ -54,12 +49,10 @@ export function DeleteCommentModal({ watchId, commentId, open, setOpen }: Delete
           <AlertDialogDescription>Are you sure you want to delete this comment?</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant={"destructive"} onClick={handleDeleteComment}>
-            Delete
-          </Button>
-          <Button variant={"outline"} onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={handleDeleteComment}>Delete</AlertDialogAction>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+          </AlertDialogFooter>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

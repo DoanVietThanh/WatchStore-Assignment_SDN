@@ -12,7 +12,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const watchesListData = await fetchAllWatch({
     ...searchParams,
     pageNumber: 1,
-    pageSize: 8,
+    pageSize: 20,
     sortBy: "brandName",
     sortOrder: 1,
   });

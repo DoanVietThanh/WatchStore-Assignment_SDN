@@ -14,6 +14,7 @@ export const fetchAllWatch = async (searchParams?: SearchParams) => {
       method: "GET",
       cache: "no-store",
     });
+
     const data = await response.json();
     return data;
   } catch (error: any) {
@@ -25,7 +26,8 @@ export const fetchWatch = async (id: string) => {
   try {
     const response = await fetch(`${SERVER_URL}/watch/${id}`, {
       method: "GET",
-      cache: "no-store",
+      // cache: "no-store",
+      next: { revalidate: 100 },
     });
     const data = await response.json();
     return data;

@@ -1,10 +1,12 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { LogOut, Settings, User } from "lucide-react";
 
+import { getCurrentMember } from "@/actions/member.action";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,13 +18,20 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getUserInfo } from "@/lib/manage-state-client";
 const HeaderPublic = () => {
-  const { data } = useSession();
-  const user = data?.user;
   const router = useRouter();
-  const userInfo = getUserInfo();
-  console.log("🚀 ~ HeaderPublic ~ userInfo:", userInfo);
+  const [userInfo, setUserInfo] = useState<any>(null);
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const res = await getCurrentMember();
+      if (res) {
+        setUserInfo(res);
+      }
+    }
+    getUserInfo();
+  }, []);
+
   return (
     <div className="flex items-center justify-between px-10 py-2 mb-4 border shadow-md">
       <Link href={"/"}>

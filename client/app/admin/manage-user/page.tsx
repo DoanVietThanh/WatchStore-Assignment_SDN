@@ -1,24 +1,13 @@
-"use client";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-
 import { fetchAccounts } from "@/actions/member.action";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MemberType } from "@/types/member.types";
 
-const ManageUser = () => {
-  const [accounts, setAccounts] = useState([]);
+const ManageUser = async () => {
+  const accounts = await fetchAccounts();
 
-  useEffect(() => {
-    async function getAccounts() {
-      await fetchAccounts()
-        .then((data) => {
-          setAccounts(data.data);
-        })
-        .catch((err) => toast.error(err.message || "An error occurred while fetching accounts"));
-    }
-    getAccounts();
-  }, []);
+  if (!accounts) {
+    return <div>No accounts found</div>;
+  }
 
   return (
     <div className="container flex-1 p-4 min-h-full">

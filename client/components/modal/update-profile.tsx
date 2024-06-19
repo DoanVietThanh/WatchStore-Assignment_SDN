@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getUserInfo } from "@/lib/manage-state-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
@@ -24,9 +23,12 @@ const formSchema = z.object({
   isAdmin: z.boolean().optional(),
 });
 
-export function UpdateProfileModal() {
+type UpdateProfileModalProps = {
+  userInfo: any;
+};
+
+export function UpdateProfileModal({ userInfo }: UpdateProfileModalProps) {
   const router = useRouter();
-  const userInfo = getUserInfo();
   const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

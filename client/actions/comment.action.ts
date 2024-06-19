@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 import { CommentType } from "@/types/comment.types";
@@ -18,8 +19,7 @@ export const createComment = async (comment: CommentType, watchId: string) => {
     const errorData = await response.json();
     throw new Error(errorData.message || "An error occurred while creating comment");
   }
-  const data = await response.json();
-  return data;
+  return response.json();
 };
 
 export const fetchComments = async (watchId: string) => {

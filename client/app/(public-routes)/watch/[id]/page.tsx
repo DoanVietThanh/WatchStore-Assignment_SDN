@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { CircleCheck, CircleX } from "lucide-react";
 
-import { fetchComments } from "@/actions/comment.action";
 import { fetchWatch } from "@/actions/watch.action";
 import {
   Breadcrumb,
@@ -22,7 +21,6 @@ type DetailWatchProps = {
 
 const DetailWatch = async ({ params }: DetailWatchProps) => {
   const watchInfo = await fetchWatch(params.id);
-  const commentInfo = await fetchComments(params.id);
   if (!watchInfo) {
     return <div>Watch not found</div>;
   }
@@ -44,7 +42,7 @@ const DetailWatch = async ({ params }: DetailWatchProps) => {
       <div className="flex flex-col gap-8">
         <div className="flex justify-evenly gap-8">
           <div className="">
-            <div className="w-full flex justify-center items-center p-4 shadow-lg rounded-lg overflow-hidden">
+            <div className="w-auto h-full flex justify-center items-center p-4 shadow-lg rounded-lg overflow-hidden">
               <Image
                 alt="watch img"
                 width={200}

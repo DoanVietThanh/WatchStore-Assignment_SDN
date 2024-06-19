@@ -27,13 +27,14 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
         {
           rating,
           content,
-          author: currentMember.data._id,
+          author: currentMember._id,
         },
         watchId
       );
       if (comment.success) {
         setContent("");
         setRating(2);
+        router.refresh();
         toast.success(comment.message || "Comment success");
       } else {
         toast.error(comment.message || "Comment failed");
