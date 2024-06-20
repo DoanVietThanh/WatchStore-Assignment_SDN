@@ -8,7 +8,7 @@ type ManageBrandProps = {
 };
 
 const ManageBrand = async ({ params }: ManageBrandProps) => {
-  const brands = await fetchBrands();
+  const brands = await fetchBrands({ sortBy: "createdAt", sortOrder: 0 });
 
   if (!brands) {
     return <div>No brands found</div>;

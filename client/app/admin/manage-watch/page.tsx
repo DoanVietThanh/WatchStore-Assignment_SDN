@@ -8,7 +8,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { WatchItemType } from "@/types/watch.types";
 
 const ManageWatch = async () => {
-  const watches = await fetchAllWatch();
+  const watches = await fetchAllWatch({ sortBy: "createdAt", sortOrder: 0 });
   if (!watches) {
     return <div className="text-center flex justify-center items-center">Watches not found</div>;
   }

@@ -30,7 +30,7 @@ const WatchCommentList = async ({ watchId }: WatchCommentListProps) => {
             <div className="flex items-center gap-4">
               <Avatar>
                 <AvatarImage src={`https://avatar.iran.liara.run/public`} alt="@shadcn" />
-                <AvatarFallback>{item.author.name}</AvatarFallback>
+                <AvatarFallback>User</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <div className="flex items-center gap-4">

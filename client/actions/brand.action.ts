@@ -1,10 +1,16 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+
+import { serialize } from "@/lib/serialize-query-string";
+import { SearchParams } from "@/types/search-params.types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const fetchBrands = async () => {
-  const response = await fetch(`${SERVER_URL}/brand/query-brands`, {
+export const fetchBrands = async (searchParams?: SearchParams) => {
+  const convertedQueryString = serialize(searchParams);
+
+  const response = await fetch(`${SERVER_URL}/brand/query-brands?${convertedQueryString}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -16,6 +22,7 @@ export const fetchBrands = async () => {
     throw new Error(errorData.message || "An error occurred while fetching brands");
   }
   const data = await response.json();
+  revalidatePath("/admin/manage-brand");
   return data;
 };
 
@@ -33,6 +40,7 @@ export const updateBrand = async (id: string, brand: any) => {
     throw new Error(errorData.message || "An error occurred while updating brand");
   }
   const data = await response.json();
+  revalidatePath("/admin/manage-brand");
   return data;
 };
 
@@ -50,6 +58,7 @@ export const createBrand = async (brand: any) => {
     throw new Error(errorData.message || "An error occurred while creating brand");
   }
   const data = await response.json();
+  revalidatePath("/admin/manage-brand");
   return data;
 };
 
@@ -66,5 +75,6 @@ export const deleteBrand = async (id: string) => {
     throw new Error(errorData.message || "An error occurred while deleting brand");
   }
   const data = await response.json();
+  revalidatePath("/admin/manage-brand");
   return data;
 };

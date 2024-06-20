@@ -1,36 +1,12 @@
-"use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
-import { LogOut, Settings, User } from "lucide-react";
+import { redirect } from "next/navigation";
 
 import { getCurrentMember } from "@/actions/member.action";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import DropdownUser from "@/components/dropdown-user";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-const HeaderPublic = () => {
-  const router = useRouter();
-  const [userInfo, setUserInfo] = useState<any>(null);
-
-  useEffect(() => {
-    async function getUserInfo() {
-      const res = await getCurrentMember();
-      if (res) {
-        setUserInfo(res);
-      }
-    }
-    getUserInfo();
-  }, []);
+const HeaderPublic = async () => {
+  const userInfo = await getCurrentMember();
 
   return (
     <div className="flex items-center justify-between px-10 py-2 mb-4 border shadow-md">
@@ -44,50 +20,9 @@ const HeaderPublic = () => {
         />
       </Link>
       {userInfo ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant={"ghost"}>
-              <div className="flex items-center gap-4">
-                <h2 className="text-lg font-semibold">{userInfo?.memberName}</h2>
-                <Avatar className="">
-                  <AvatarImage
-                    src={`https://avatar.iran.liara.run/public/boy?username=${userInfo?.name}`}
-                    alt={`${userInfo?.name} profile picture`}
-                  />
-                  <AvatarFallback>{userInfo?.name?.split(" ")[0][0]}</AvatarFallback>
-                </Avatar>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 z-50 bg-white">
-            <DropdownMenuLabel className="text-center">My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => router.push(`/profile/${userInfo?._id}`)}
-              className="cursor-pointer hover:bg-slate-200"
-            >
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer hover:bg-slate-200">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer hover:bg-slate-200"
-              onClick={() => signOut({ callbackUrl: "/" })}
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DropdownUser userInfo={userInfo} />
       ) : (
-        <Button variant={"default"} onClick={() => {}} asChild>
+        <Button variant={"default"} asChild>
           <Link href="/sign-in">Sign In</Link>
         </Button>
       )}

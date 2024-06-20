@@ -1,5 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { MemberType } from "@/types/member.types";
 
@@ -21,8 +22,6 @@ export const signInMember = async (values: { memberName: string; password: strin
 
   const responseData = await response.json();
   cookies().set("token", responseData?.token);
-  cookies().set("userInfo", responseData?.data);
-
   return responseData;
 };
 
@@ -44,9 +43,9 @@ export const signUpMember = async (values: MemberType) => {
   return responseData;
 };
 
-export const getCurrentMember = async () => {
-  const response = await fetch(`${SERVER_URL}/member/current-member`, {
-    method: "GET",
+export const logoutMember = async () => {
+  const response = await fetch(`${SERVER_URL}/member/logout`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${cookies().get("token")?.value as string}`,
@@ -55,27 +54,43 @@ export const getCurrentMember = async () => {
   });
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "An error occurred while getting current member");
+    throw new Error(errorData.message || "An error occurred while logging out");
   }
+  cookies().delete("token");
   const responseData = await response.json();
-  return responseData.data;
+  return responseData;
+};
+
+export const getCurrentMember = async () => {
+  if (cookies().get("token")?.value) {
+    const response = await fetch(`${SERVER_URL}/member/current-member`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies().get("token")?.value || ""}`,
+      },
+      cache: "no-store",
+    });
+    const responseData = await response.json();
+    return responseData.data;
+  }
+  return null;
 };
 
 export const fetchAccounts = async () => {
   const response = await fetch(`${SERVER_URL}/member/accounts`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
     cache: "no-store",
   });
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "An error occurred while fetching accounts");
+    console.log(errorData.message);
   }
   const data = await response.json();
-  return data.data;
+  return data;
 };
 
 export const updatePassword = async (
@@ -92,7 +107,7 @@ export const updatePassword = async (
   });
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "An error occurred while updating password");
+    console.log(errorData.message);
   }
   const data = await response.json();
   return data;
@@ -109,7 +124,7 @@ export const updateProfile = async (memberId: string, values: any) => {
   });
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "An error occurred while updating password");
+    console.log(errorData.message);
   }
   const data = await response.json();
   return data;

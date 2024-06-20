@@ -49,7 +49,7 @@ export const queryWatches = async (req: Request, res: Response) => {
       .limit(size)
       .sort({ [sortBy as string]: Number(sortOrder) === 1 ? 1 : -1 })
       .populate([{ path: "brand", select: "brandName" }])
-      .select("-createdAt -updatedAt -__v");
+      .select("-__v");
     const totalCount = await WatchModel.countDocuments(query);
 
     return res.status(200).json({ data: brands, totalCount, success: true, message: "Get brands successfully" });

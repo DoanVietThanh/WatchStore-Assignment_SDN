@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Trello, User, Watch } from "lucide-react";
 
 const adminRoute = [
@@ -22,9 +24,10 @@ const adminRoute = [
 ];
 
 const SidebarAdmin = () => {
+  const router = useRouter();
   return (
     <div className="bg-[#1C2434] text-white p-8 h-screen">
-      <div className="p-4 text-center">
+      <div className="p-4 text-center cursor-pointer" onClick={() => router.push("/")}>
         <Image
           src="https://theme.hstatic.net/200000656863/1001222351/14/logo.png?v=377"
           alt="logo"

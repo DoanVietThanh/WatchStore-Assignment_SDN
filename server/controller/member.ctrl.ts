@@ -45,7 +45,14 @@ export const loginMember = async (req: Request, res: Response) => {
   }
 };
 
-export const logoutMember = async (req: Request, res: Response) => {};
+export const logoutMember = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie("token");
+    return res.status(200).json({ message: "Logout successful", success: true });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
+};
 
 export const getAllMembers = async (req: Request, res: Response) => {
   try {

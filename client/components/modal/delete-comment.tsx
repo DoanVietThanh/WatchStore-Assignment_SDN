@@ -50,7 +50,9 @@ export function DeleteCommentModal({ watchId, commentId }: DeleteCommentModalPro
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={handleDeleteComment}>Delete</AlertDialogAction>
+            <AlertDialogAction onClick={handleDeleteComment} className="bg-red-500 hover:bg-red-600">
+              Delete
+            </AlertDialogAction>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogFooter>

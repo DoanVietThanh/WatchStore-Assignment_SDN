@@ -50,6 +50,11 @@ export const queryBrand = async (req: Request, res: Response) => {
 
 export const updateBrand = async (req: Request, res: Response) => {
   try {
+    const { brandName } = req.body;
+    const brand = await BrandModel.findOne({ brandName });
+    if (brand) {
+      return res.status(400).json({ message: "Brand already exists", success: false });
+    }
     const updatedBrand = await BrandModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedBrand) {
       return res.status(404).json({ message: "Brand not found", success: false });

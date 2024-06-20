@@ -5,7 +5,7 @@ import { MemberType } from "@/types/member.types";
 const ManageUser = async () => {
   const accounts = await fetchAccounts();
 
-  if (!accounts) {
+  if (!accounts.success) {
     return <div>No accounts found</div>;
   }
 
@@ -26,7 +26,7 @@ const ManageUser = async () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {accounts?.map((account: MemberType, index: number) => (
+            {accounts?.data?.map((account: MemberType, index: number) => (
               <TableRow key={account._id}>
                 <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>{account.memberName}</TableCell>

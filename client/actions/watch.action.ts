@@ -5,30 +5,36 @@ import { serialize } from "@/lib/serialize-query-string";
 import { SearchParams } from "@/types/search-params.types";
 import { CreateWatchItemType } from "@/types/watch.types";
 
-const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL!;
 
 export const fetchAllWatch = async (searchParams?: SearchParams) => {
-  try {
-    const convertedQueryString = serialize(searchParams);
-    const response = await fetch(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`, {
-      method: "GET",
-      cache: "no-store",
-    });
+  const convertedQueryString = serialize(searchParams);
+  console.log(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`);
+  const response = await fetch(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`, {
+    method: "GET",
+    cache: "no-store",
+  });
 
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    throw new Error(error);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "An error occurred while fetching watches");
   }
+
+  const data = await response.json();
+  return data;
 };
 
 export const fetchWatch = async (id: string) => {
   try {
     const response = await fetch(`${SERVER_URL}/watch/${id}`, {
       method: "GET",
-      // cache: "no-store",
-      next: { revalidate: 100 },
+      cache: "no-store",
     });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "An error occurred while fetching watch");
+    }
     const data = await response.json();
     return data;
   } catch (error: any) {

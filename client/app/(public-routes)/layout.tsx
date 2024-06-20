@@ -25,19 +25,19 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <SessionWrapper>
-      {/* <AuthMiddleware> */}
-      <html lang="en">
-        <body className={inter.className}>
-          <div className="flex flex-col justify-between min-h-screen">
-            <HeaderPublic />
-            <div className="container flex-1">{children}</div>
-            <FooterPublic />
-          </div>
-          <Toaster position="top-right" richColors theme="light" />
-        </body>
-      </html>
-      {/* </AuthMiddleware> */}
-    </SessionWrapper>
+    // <SessionWrapper>
+    //   <AuthMiddleware>
+    <html lang="en">
+      <body className={inter.className}>
+        <div className="flex flex-col justify-between min-h-screen">
+          <HeaderPublic />
+          <div className="container flex-1">{children}</div>
+          <FooterPublic />
+        </div>
+        <Toaster position="top-right" richColors theme="light" />
+      </body>
+    </html>
+    //   </AuthMiddleware>
+    // </SessionWrapper>
   );
 }

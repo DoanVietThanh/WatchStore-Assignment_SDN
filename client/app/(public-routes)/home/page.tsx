@@ -17,6 +17,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     sortOrder: 1,
   });
 
+  if (!watchesListData) {
+    return <div>No watches found</div>;
+  }
+
   return (
     <div className="flex flex-col flex-1">
       <BannerPublic />

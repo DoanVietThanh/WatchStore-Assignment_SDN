@@ -8,7 +8,7 @@ export const watchRoutes = express.Router();
 
 watchRoutes.post("/", validateData(watchValidationSchema), createWatch);
 watchRoutes.get("/query-watches", queryWatches);
-
 watchRoutes.get("/:id", getWatch);
+
 watchRoutes.put("/:id", authMiddleware, isAdmin, updateWatch);
 watchRoutes.delete("/:id", authMiddleware, isAdmin, deleteWatch);
