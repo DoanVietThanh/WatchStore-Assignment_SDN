@@ -39,25 +39,39 @@ export const getWatch = async (req: Request, res: Response) => {
 
 export const queryWatches = async (req: Request, res: Response) => {
   try {
-    const { watchName, pageNumber, pageSize, sortBy, sortOrder } = req.query;
-    const page = parseInt(pageNumber as string, 10);
-    const size = parseInt(pageSize as string, 10);
+    const { watchName, pageNumber, pageSize, sortBy, sortOrder, brandName } = req.query;
+    const page = parseInt(pageNumber as string, 10) || 1;
+    const size = parseInt(pageSize as string, 10) || 10;
 
-    const query = watchName ? { watchName: { $regex: watchName, $options: "i" } } : {};
-    const brands = await WatchModel.find(query)
+    const query: any = {};
+    if (watchName) {
+      query.watchName = { $regex: watchName, $options: "i" };
+    }
+
+    // If brandName is provided, find the brand first
+    let brand: any = null;
+    if (brandName) {
+      brand = await BrandModel.findOne({ brandName: { $regex: brandName, $options: "i" } });
+      if (!brand) {
+        return res.status(404).json({ message: "Brand not found", success: false });
+      }
+      query.brand = brand._id;
+    }
+
+    const watches = await WatchModel.find(query)
       .skip((page - 1) * size)
       .limit(size)
       .sort({ [sortBy as string]: Number(sortOrder) === 1 ? 1 : -1 })
       .populate([{ path: "brand", select: "brandName" }])
       .select("-__v");
+
     const totalCount = await WatchModel.countDocuments(query);
 
-    return res.status(200).json({ data: brands, totalCount, success: true, message: "Get brands successfully" });
+    return res.status(200).json({ data: watches, totalCount, success: true, message: "Get watches successfully" });
   } catch (error: any) {
     return res.status(500).json({ message: error.message, success: false });
   }
 };
-
 export const updateWatch = async (req: Request, res: Response) => {
   try {
     const existingWatch = await WatchModel.findById(req.params.id);

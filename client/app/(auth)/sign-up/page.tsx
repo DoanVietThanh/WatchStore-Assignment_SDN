@@ -34,9 +34,9 @@ const SignUpPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      memberName: "admin1",
-      name: "admin1",
-      password: "123456",
+      memberName: "",
+      name: "",
+      password: "",
       yob: new Date().getFullYear(),
       confirmedPassword: "",
       isAdmin: false,
@@ -56,8 +56,8 @@ const SignUpPage = () => {
   };
 
   return (
-    <section className="h-[100vh] w-[100vw] flex justify-center items-center bg-slate-200">
-      <div className="flex flex-col justify-center items-center bg-white rounded-lg p-8">
+    <section className="h-[100vh] w-[100vw] flex justify-center items-center bg-slate-200 overflow-y-auto">
+      <div className=" flex flex-col justify-center items-center bg-white rounded-lg p-8">
         <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
           Sign Up
         </h1>
@@ -137,7 +137,7 @@ const SignUpPage = () => {
             <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
               Have an account?{" "}
               <a
-                href="/sign-up"
+                href="/sign-in"
                 className="text-blue-600 font-semibold text-primary-600 hover:underline dark:text-primary-500"
               >
                 Sign-in here

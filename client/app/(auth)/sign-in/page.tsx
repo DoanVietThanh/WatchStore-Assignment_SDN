@@ -1,5 +1,6 @@
 "use client";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -81,12 +82,22 @@ const SignInPage = () => {
               <Button type="submit" variant={"primary"} className="w-full">
                 Submit
               </Button>
+
               <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
-                Have not an account?{" "}
-                <a href="/sign-up" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                Have an account?{" "}
+                <a
+                  href="/sign-up"
+                  className="text-blue-600 font-semibold text-primary-600 hover:underline dark:text-primary-500"
+                >
                   Sign-up here
                 </a>
               </p>
+
+              <div className="text-center">
+                <Link href={"/"} className="hover:underline text-blue-600 font-semibold">
+                  Come to Home Page
+                </Link>
+              </div>
             </form>
           </Form>
         </div>

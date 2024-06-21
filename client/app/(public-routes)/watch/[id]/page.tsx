@@ -34,7 +34,11 @@ const DetailWatch = async ({ params }: DetailWatchProps) => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Watch</BreadcrumbPage>
+              <BreadcrumbLink href="/watch">Watch</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{watchInfo?.data.watchName}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

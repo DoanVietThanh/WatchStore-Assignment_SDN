@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { getCurrentMember } from "@/actions/member.action";
 import DropdownUser from "@/components/dropdown-user";
@@ -19,13 +18,21 @@ const HeaderPublic = async () => {
           layout="intrinsic"
         />
       </Link>
-      {userInfo ? (
-        <DropdownUser userInfo={userInfo} />
-      ) : (
-        <Button variant={"default"} asChild>
-          <Link href="/sign-in">Sign In</Link>
+      <div className="flex gap-4">
+        <Button variant={"ghost"} asChild>
+          <Link href={"/watch"}>Watches</Link>
         </Button>
-      )}
+        <Button variant={"ghost"} asChild>
+          <Link href={"/contact"}>Contact</Link>
+        </Button>
+        {userInfo ? (
+          <DropdownUser userInfo={userInfo} />
+        ) : (
+          <Button variant={"default"} asChild>
+            <Link href="/sign-in">Sign In</Link>
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

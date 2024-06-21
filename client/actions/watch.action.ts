@@ -9,7 +9,6 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL!;
 
 export const fetchAllWatch = async (searchParams?: SearchParams) => {
   const convertedQueryString = serialize(searchParams);
-  console.log(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`);
   const response = await fetch(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`, {
     method: "GET",
     cache: "no-store",

@@ -11,7 +11,7 @@ const BestSeller = () => {
       </div>
       <div className="flex-1 h-full flex gap-6 justify-evenly">
         {[1, 2, 3].map((item) => (
-          <div key={item} className="border text-center p-4 rounded-md">
+          <div key={item} className="border text-center p-4 rounded-md shadow-md">
             <div className="mb-4">
               <Image
                 src="https://citizenwatch.widen.net/content/c155b5cxmk/png/%E2%80%9CTSUYOSA%E2%80%9D.png?u=41zuoe&width=400&height=400&quality=80&crop=false&keep=c&color=FFFFFF00"
