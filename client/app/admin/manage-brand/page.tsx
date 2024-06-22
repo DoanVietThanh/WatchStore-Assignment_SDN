@@ -3,12 +3,10 @@ import DeleteBrandModal from "@/components/modal/delete-brand";
 import ManageBrandModal from "@/components/modal/manage-brand";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BrandType } from "@/types/brand.types";
-type ManageBrandProps = {
-  params: {};
-};
 
-const ManageBrand = async ({ params }: ManageBrandProps) => {
+const ManageBrand = async () => {
   const brands = await fetchBrands({ sortBy: "createdAt", sortOrder: 0 });
+  console.log("🚀 ~ ManageBrand ~ brands:", brands);
 
   if (!brands) {
     return <div>No brands found</div>;

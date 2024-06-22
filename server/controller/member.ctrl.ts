@@ -108,13 +108,18 @@ export const updatePassword = async (req: Request, res: Response) => {
     if (!member) {
       return res.status(404).json({ message: "Member not found", success: false });
     }
-    if (oldPassword !== confirmedPassword) {
-      return res.status(400).json({ message: "Passwords do not match", success: false });
-    }
     const isPasswordValid = await bcrypt.compare(oldPassword, member.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Wrong password", success: false });
     }
+    if (newPassword !== confirmedPassword) {
+      return res.status(400).json({ message: "Passwords do not match", success: false });
+    }
+
+    if (newPassword === oldPassword) {
+      return res.status(400).json({ message: "New password cannot be the same as old password", success: false });
+    }
+
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     member.password = hashedPassword;
     await member.save();

@@ -42,7 +42,6 @@ const WatchCommentList = async ({ watchId }: WatchCommentListProps) => {
             </div>
             {item.author._id === userInfo?._id && (
               <div className="flex gap-4 items-center">
-                <Edit className="cursor-none mr-2 h-6 w-6" />
                 <DeleteCommentModal watchId={watchId} commentId={item._id} />
               </div>
             )}

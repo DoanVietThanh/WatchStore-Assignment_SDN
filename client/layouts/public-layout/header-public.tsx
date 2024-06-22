@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { getCurrentMember } from "@/actions/member.action";
+import DropdownAdmin from "@/components/dropdown-admin";
 import DropdownUser from "@/components/dropdown-user";
 import { Button } from "@/components/ui/button";
 const HeaderPublic = async () => {
@@ -26,7 +27,11 @@ const HeaderPublic = async () => {
           <Link href={"/contact"}>Contact</Link>
         </Button>
         {userInfo ? (
-          <DropdownUser userInfo={userInfo} />
+          userInfo.isAdmin ? (
+            <DropdownAdmin userInfo={userInfo} />
+          ) : (
+            <DropdownUser userInfo={userInfo} />
+          )
         ) : (
           <Button variant={"default"} asChild>
             <Link href="/sign-in">Sign In</Link>

@@ -52,14 +52,16 @@ const DropdownUser = ({ userInfo }: DropdownUserProps) => {
       <DropdownMenuContent className="w-56 z-50 bg-white">
         <DropdownMenuLabel className="text-center">My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => router.push(`/profile/${userInfo?._id}`)}
-          className="cursor-pointer hover:bg-slate-200"
-        >
-          <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        {!userInfo?.isAdmin && (
+          <DropdownMenuItem
+            onClick={() => router.push(`/profile/${userInfo?._id}`)}
+            className="cursor-pointer hover:bg-slate-200"
+          >
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem className="cursor-pointer hover:bg-slate-200">
           <Settings className="mr-2 h-4 w-4" />
           <span>Settings</span>

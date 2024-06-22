@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
-import { redirect } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { redirect, useRouter } from "next/navigation";
+import { LogOut, User } from "lucide-react";
 import { toast } from "sonner";
 
 import { logoutMember } from "@/actions/member.action";
@@ -19,6 +19,7 @@ type DropdownAdminProps = {
 };
 
 const DropdownAdmin = ({ userInfo }: DropdownAdminProps) => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const handleLogout = async () => {
     startTransition(async () => {
@@ -47,6 +48,24 @@ const DropdownAdmin = ({ userInfo }: DropdownAdminProps) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="z-50 bg-white">
+        <DropdownMenuItem
+          onClick={() => router.push(`/admin/manage-user`)}
+          className="cursor-pointer hover:bg-slate-200"
+        >
+          <span>Manage User</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => router.push(`/admin/manage-watch`)}
+          className="cursor-pointer hover:bg-slate-200"
+        >
+          <span>Manage Watch</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => router.push(`/admin/manage-brand`)}
+          className="cursor-pointer hover:bg-slate-200"
+        >
+          <span>Manage Brand</span>
+        </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer hover:bg-slate-200" onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>

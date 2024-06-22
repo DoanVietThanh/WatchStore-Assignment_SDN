@@ -8,7 +8,9 @@ const ProfileDetailPage = async () => {
   const userInfo = await getCurrentMember();
 
   if (!userInfo) {
-    return <div>Member not found</div>;
+    return (
+      <div className="h-full flex-1 items-center text-center font-semibold text-3xl text-red-400">Member not found</div>
+    );
   }
 
   return (
@@ -19,6 +21,7 @@ const ProfileDetailPage = async () => {
           alt="logo"
           width={300}
           height={300}
+          layout="intrinsic"
         />
       </div>
       <div className="flex flex-col gap-8 font-semibold text-xl min-w-[30vw]">

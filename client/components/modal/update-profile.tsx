@@ -19,7 +19,14 @@ const formSchema = z.object({
   name: z.string().nonempty({ message: "Name is required" }).min(4, {
     message: "Name must be at least 4 characters.",
   }),
-  yob: z.number().int().nonnegative({ message: "Year of birth must be a non-negative integer" }),
+  yob: z
+    .number()
+    .int()
+    .nonnegative({ message: "Year of birth must be a non-negative integer" })
+    .min(1900, {
+      message: "Year of birth must be at least 1900.",
+    })
+    .max(2023, { message: "Year of birth must be at most 2023." }),
   isAdmin: z.boolean().optional(),
 });
 
@@ -52,7 +59,6 @@ export function UpdateProfileModal({ userInfo }: UpdateProfileModalProps) {
   }, [form, open, userInfo.memberName, userInfo.name, userInfo.yob]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     try {
       const res = await updateProfile(userInfo._id as string, values);
       if (res.success) {
@@ -111,10 +117,16 @@ export function UpdateProfileModal({ userInfo }: UpdateProfileModalProps) {
               control={form.control}
               name="yob"
               render={({ field }) => (
-                <FormItem className="">
+                <FormItem>
                   <FormLabel>Year Of Birth</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="Year of birth" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="Year of birth"
+                      {...field}
+                      value={field.value as number}
+                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

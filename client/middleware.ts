@@ -11,8 +11,14 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
+
+  if (request.nextUrl.pathname.startsWith("/profile")) {
+    if (!user || user.isAdmin) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/profile/:path*"],
 };

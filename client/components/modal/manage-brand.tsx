@@ -26,9 +26,8 @@ const formSchema = z.object({
 });
 
 const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => {
-  const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
-  const [currentBrandName, setCurrentBrandName] = useState<string>(type === "update" && brand ? brand.brandName : "");
+  const [currentBrandName, setCurrentBrandName] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,9 +38,10 @@ const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => 
 
   useEffect(() => {
     if (open) {
+      setCurrentBrandName(type === "update" && brand ? brand.brandName : "");
       form.reset({ brandName: currentBrandName });
     }
-  }, [open, currentBrandName, form, type]);
+  }, [open, currentBrandName, form, type, brand]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -51,7 +51,6 @@ const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => 
           toast.success(res.message || "Edit brand successfully");
           setCurrentBrandName(values.brandName);
           setOpen(false);
-          router.refresh();
         } else {
           form.setError("brandName", { message: res.message });
         }
@@ -61,7 +60,6 @@ const ManageBrandModal = ({ brand, type = "create" }: ManageBrandModalProps) => 
           toast.success(res.message || "Create brand successfully");
           setCurrentBrandName("");
           setOpen(false);
-          router.refresh();
         } else {
           form.setError("brandName", { message: res.message });
         }

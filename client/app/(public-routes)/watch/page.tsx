@@ -1,3 +1,4 @@
+import { fetchBrands } from "@/actions/brand.action";
 import { fetchAllWatch } from "@/actions/watch.action";
 import SearchBrand from "@/components/search-brand";
 import Searchbar from "@/components/searchbar";
@@ -8,13 +9,15 @@ type WatchPageProps = {
 };
 
 const WatchPage = async ({ searchParams }: WatchPageProps) => {
+  const brands = await fetchBrands();
   const watches = await fetchAllWatch({ ...searchParams });
-  console.log("🚀 ~ WatchPage ~ watches:", watches);
 
   return (
     <div className="container">
-      <Searchbar route="watch" placeholder="Search watch name" paramKey="watchName" />
-      <SearchBrand route="watch" paramKey="brandName" />
+      <div className="flex">
+        <Searchbar route="watch" placeholder="Search watch name" />
+        <SearchBrand route="watch" brands={brands.data} />
+      </div>
       {watches.data.length === 0 && (
         <div className="text-center font-semibold text-red-500 w-full">No watches found</div>
       )}

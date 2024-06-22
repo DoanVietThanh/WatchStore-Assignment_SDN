@@ -16,14 +16,18 @@ const formSchema = z
     oldPassword: z.string().nonempty({ message: "Password is required" }).min(4, {
       message: "Password must be at least 4 characters.",
     }),
-    confirmedPassword: z.string().nonempty({ message: "Confirmed password is required" }),
     newPassword: z.string().nonempty({ message: "New password is required" }).min(4, {
       message: "New password must be at least 4 characters.",
     }),
+    confirmedPassword: z.string().nonempty({ message: "Confirmed password is required" }),
   })
-  .refine((data) => data.oldPassword === data.confirmedPassword, {
+  .refine((data) => data.newPassword === data.confirmedPassword, {
     message: "Password does not match",
     path: ["confirmedPassword"],
+  })
+  .refine((data) => data.oldPassword !== data.newPassword, {
+    message: "New password cannot be the same as old password",
+    path: ["newPassword"],
   });
 
 type UpdatePasswordModalProps = {
@@ -45,6 +49,7 @@ export function UpdatePasswordModal({ userInfo }: UpdatePasswordModalProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const res = await updatePassword(userInfo._id as string, values);
+      console.log("🚀 ~ onSubmit ~ res:", res);
       if (res.success) {
         toast.success(res.message || "Update password successfully");
         router.refresh();
@@ -83,10 +88,10 @@ export function UpdatePasswordModal({ userInfo }: UpdatePasswordModalProps) {
             />
             <FormField
               control={form.control}
-              name="confirmedPassword"
+              name="newPassword"
               render={({ field }) => (
                 <FormItem className="">
-                  <FormLabel>Confirmed Password</FormLabel>
+                  <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="Type confirmed password" {...field} />
                   </FormControl>
@@ -96,10 +101,10 @@ export function UpdatePasswordModal({ userInfo }: UpdatePasswordModalProps) {
             />
             <FormField
               control={form.control}
-              name="newPassword"
+              name="confirmedPassword"
               render={({ field }) => (
                 <FormItem className="">
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>Confirmed Password</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="Type confirmed password" {...field} />
                   </FormControl>

@@ -1,6 +1,6 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 import { MemberType } from "@/types/member.types";
 
@@ -105,11 +105,13 @@ export const updatePassword = async (
     },
     body: JSON.stringify(values),
   });
+
   if (!response.ok) {
     const errorData = await response.json();
-    console.log(errorData.message);
+    throw new Error(errorData.message || "An error occurred while updating brand");
   }
   const data = await response.json();
+  revalidatePath(`/profile/${memberId}`);
   return data;
 };
 
@@ -124,7 +126,7 @@ export const updateProfile = async (memberId: string, values: any) => {
   });
   if (!response.ok) {
     const errorData = await response.json();
-    console.log(errorData.message);
+    throw new Error(errorData.message || "An error occurred while logging out");
   }
   const data = await response.json();
   return data;

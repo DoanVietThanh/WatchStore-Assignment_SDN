@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 import { serialize } from "@/lib/serialize-query-string";
@@ -11,14 +12,13 @@ export const fetchAllWatch = async (searchParams?: SearchParams) => {
   const convertedQueryString = serialize(searchParams);
   const response = await fetch(`${SERVER_URL}/watch/query-watches?${convertedQueryString}`, {
     method: "GET",
-    cache: "no-store",
   });
 
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "An error occurred while fetching watches");
   }
-
+  revalidatePath(`/admin/manage-watch`);
   const data = await response.json();
   return data;
 };
@@ -31,10 +31,10 @@ export const fetchWatch = async (id: string) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "An error occurred while fetching watch");
+      return null;
     }
     const data = await response.json();
+    revalidatePath(`/admin/manage-watch`);
     return data;
   } catch (error: any) {
     throw new Error(error);
@@ -51,6 +51,7 @@ export const updateWatch = async (watchId: string, dataWatch: any) => {
       },
       body: JSON.stringify(dataWatch),
     });
+    revalidatePath(`/admin/manage-watch`);
     const data = await response.json();
     return data;
   } catch (error: any) {
@@ -69,6 +70,7 @@ export const createWatch = async (watch: CreateWatchItemType) => {
       body: JSON.stringify(watch),
     });
     const data = await response.json();
+    revalidatePath(`/admin/manage-watch`);
     return data;
   } catch (error: any) {
     throw new Error(error);
@@ -85,6 +87,7 @@ export const deleteWatch = async (id: string) => {
       },
     });
     const data = await response.json();
+    revalidatePath(`/admin/manage-watch`);
     return data;
   } catch (error: any) {
     throw new Error(error);

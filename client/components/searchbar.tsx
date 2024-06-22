@@ -10,10 +10,9 @@ import { Label } from "./ui/label";
 type SearchbarProps = {
   route: string;
   placeholder: string;
-  paramKey: string;
 };
 
-const Searchbar = ({ route, placeholder, paramKey }: SearchbarProps) => {
+const Searchbar = ({ route, placeholder }: SearchbarProps) => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const searchParams = useSearchParams();
@@ -24,7 +23,6 @@ const Searchbar = ({ route, placeholder, paramKey }: SearchbarProps) => {
       searchParams.forEach((value, key: string) => {
         obj[key] = value;
       });
-      console.log(Boolean(search));
       if (search) {
         obj["watchName"] = search;
       } else {

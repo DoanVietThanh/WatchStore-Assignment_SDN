@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Edit, PlusCircle } from "lucide-react";
@@ -19,6 +18,7 @@ import { WatchItemType } from "@/types/watch.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Textarea } from "../ui/textarea";
+
 type ManageWatchModalProps = {
   watch?: WatchItemType;
   type: "create" | "update";
@@ -29,18 +29,20 @@ const formSchema = z.object({
     message: "Watch Name must be at least 2 characters.",
   }),
   image: z.string().url({ message: "Invalid image URL" }),
-  price: z.number().nonnegative({ message: "Price must be a non-negative number" }),
+  price: z.number().nonnegative({ message: "Price must be a non-negative number" }).min(1, {
+    message: "Price must be at least 1.",
+  }),
   automatic: z.boolean().default(false),
   watchDescription: z.string().min(2, {
     message: "Watch Description must be at least 2 characters.",
   }),
-  brand: z.string().refine((val) => val != "", { message: "Brand is required" }),
+  brand: z.string().refine((val) => val !== "", { message: "Brand is required" }),
 });
 
 const initCreateFormValues = {
   watchName: "",
   image: "",
-  price: 0,
+  price: 1,
   automatic: false,
   watchDescription: "",
   brand: "",
@@ -49,20 +51,8 @@ const initCreateFormValues = {
 const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
-
   const [brands, setBrands] = useState<BrandType[]>([]);
-  const [defaultWatchValues, setDefaultWatchValues] = useState<z.infer<typeof formSchema>>(
-    type == "update" && watch
-      ? {
-          watchName: watch.watchName,
-          image: watch.image,
-          price: watch.price,
-          automatic: watch.automatic,
-          watchDescription: watch.watchDescription,
-          brand: watch.brand?._id,
-        }
-      : initCreateFormValues
-  );
+  const [defaultWatchValues, setDefaultWatchValues] = useState<z.infer<typeof formSchema> | undefined>(undefined);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,18 +61,37 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
 
   useEffect(() => {
     if (open) {
+      if (type === "update" && watch) {
+        setDefaultWatchValues({
+          brand: watch.brand?._id,
+          image: watch.image,
+          price: watch.price,
+          watchName: watch.watchName,
+          automatic: watch.automatic,
+          watchDescription: watch.watchDescription,
+        });
+      } else {
+        setDefaultWatchValues(initCreateFormValues);
+      }
+
       const fetchBrandsData = async () => {
         const brands = await fetchBrands();
         setBrands(brands.data);
       };
+
       fetchBrandsData();
-      form.reset({ ...defaultWatchValues });
     }
-  }, [defaultWatchValues, form, open, type]);
+  }, [open, type]);
+
+  useEffect(() => {
+    if (defaultWatchValues) {
+      form.reset(defaultWatchValues);
+    }
+  }, [defaultWatchValues, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      if (type == "update" && watch) {
+      if (type === "update" && watch) {
         const res = await updateWatch(watch._id, values);
         if (res.success) {
           toast.success(res.message || "Edit watch successfully");
@@ -106,7 +115,7 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {type == "create" ? (
+        {type === "create" ? (
           <Button variant="primary" className="text-xl font-semibold flex gap-2 items-center">
             <PlusCircle /> Create
           </Button>
@@ -116,7 +125,7 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
       </DialogTrigger>
       <DialogContent className={"lg:max-w-screen-md overflow-y-scroll max-h-[94vh]"}>
         <DialogHeader>
-          <DialogTitle>{type == "create" ? "Create Watch" : "Edit Watch"}</DialogTitle>
+          <DialogTitle>{type === "create" ? "Create Watch" : "Edit Watch"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

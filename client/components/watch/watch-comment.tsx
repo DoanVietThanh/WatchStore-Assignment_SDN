@@ -30,7 +30,6 @@ const WatchComment = ({ watchId }: WatchCommentProps) => {
   }, []);
 
   const handleComment = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("🚀 ~ WatchComment ~ currentMember:", currentMember);
     e.preventDefault();
     startTransition(async () => {
       try {

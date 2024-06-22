@@ -9,7 +9,6 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const fetchBrands = async (searchParams?: SearchParams) => {
   const convertedQueryString = serialize(searchParams);
-
   const response = await fetch(`${SERVER_URL}/brand/query-brands?${convertedQueryString}`, {
     method: "GET",
     headers: {
@@ -18,8 +17,7 @@ export const fetchBrands = async (searchParams?: SearchParams) => {
     cache: "no-store",
   });
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "An error occurred while fetching brands");
+    return null;
   }
   const data = await response.json();
   revalidatePath("/admin/manage-brand");
@@ -33,6 +31,7 @@ export const updateBrand = async (id: string, brand: any) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${cookies().get("token")?.value as string}`,
     },
+    cache: "no-store",
     body: JSON.stringify(brand),
   });
   if (!response.ok) {
