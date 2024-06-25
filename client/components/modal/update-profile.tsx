@@ -26,7 +26,7 @@ const formSchema = z.object({
     .min(1900, {
       message: "Year of birth must be at least 1900.",
     })
-    .max(2023, { message: "Year of birth must be at most 2023." }),
+    .max(2010, { message: "Year of birth must be at most 2010." }),
   isAdmin: z.boolean().optional(),
 });
 

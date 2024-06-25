@@ -28,7 +28,7 @@ const DropdownUser = ({ userInfo }: DropdownUserProps) => {
       const res = await logoutMember();
       if (res?.success) {
         toast.success(res?.message || "Logout successfully");
-        redirect("/sign-in");
+        router.push("/sign-in");
       }
     });
   };

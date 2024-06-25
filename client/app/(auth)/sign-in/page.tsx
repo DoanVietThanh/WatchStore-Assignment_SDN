@@ -25,8 +25,8 @@ const SignInPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      memberName: "admin",
-      password: "123456",
+      memberName: "",
+      password: "",
     },
   });
 

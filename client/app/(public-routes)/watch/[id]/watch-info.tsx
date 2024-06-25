@@ -29,11 +29,13 @@ const WatchInfo = ({ watchInfo }: WatchInfoProps) => {
         <span className="font-semibold ">Automatic: </span>
         {watchInfo?.data.automatic ? <CircleCheck color="green" /> : <CircleX color="red" />}
       </p>
-      <p className="text-xl flex items-center gap-4">
-        <span className="font-semibold ">Stars: </span>
-        {getAverageStars(watchInfo?.data.comments.map((comment: any) => comment.rating))}⭐️ (
-        {watchInfo?.data.comments.length} feedbacks)
-      </p>
+      {watchInfo?.data.comments.length > 0 && (
+        <p className="text-xl flex items-center gap-4">
+          <span className="font-semibold ">Stars: </span>
+          {getAverageStars(watchInfo?.data.comments.map((comment: any) => comment.rating))}⭐️ (
+          {watchInfo?.data.comments.length} feedbacks)
+        </p>
+      )}
       <Separator />
       <p>
         <span className="font-semibold text-xl">Description:</span>

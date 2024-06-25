@@ -17,6 +17,7 @@ import { BrandType } from "@/types/brand.types";
 import { WatchItemType } from "@/types/watch.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Checkbox } from "../ui/checkbox";
 import { Textarea } from "../ui/textarea";
 
 type ManageWatchModalProps = {
@@ -60,6 +61,14 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
   });
 
   useEffect(() => {
+    const fetchBrandsData = async () => {
+      const brands = await fetchBrands();
+      setBrands(brands.data);
+    };
+    fetchBrandsData();
+  }, []);
+
+  useEffect(() => {
     if (open) {
       if (type === "update" && watch) {
         setDefaultWatchValues({
@@ -73,15 +82,8 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
       } else {
         setDefaultWatchValues(initCreateFormValues);
       }
-
-      const fetchBrandsData = async () => {
-        const brands = await fetchBrands();
-        setBrands(brands.data);
-      };
-
-      fetchBrandsData();
     }
-  }, [open, type]);
+  }, [open, type, watch]);
 
   useEffect(() => {
     if (defaultWatchValues) {
@@ -178,7 +180,7 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
                 control={form.control}
                 name="brand"
                 render={({ field }) => (
-                  <FormItem className="flex gap-2 items-center ">
+                  <FormItem className="flex gap-2 items-center">
                     <FormLabel className="mt-[8px]">Brands</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange} value={field.value}>
@@ -189,7 +191,11 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
                           <SelectGroup>
                             {brands.length > 0 &&
                               brands?.map((brand) => (
-                                <SelectItem key={brand._id} value={brand._id}>
+                                <SelectItem
+                                  key={brand._id}
+                                  value={brand._id}
+                                  defaultChecked={brand._id === field.value}
+                                >
                                   {brand.brandName}
                                 </SelectItem>
                               ))}
@@ -208,7 +214,7 @@ const ManageWatchModal = ({ watch, type = "create" }: ManageWatchModalProps) => 
                   <FormItem className="flex gap-2 items-center justify-center">
                     <FormLabel className="mt-[8px]">Automatic</FormLabel>
                     <FormControl className="m-0">
-                      <Input type="checkbox" checked={field.value} onChange={field.onChange} className="m-0 w-4 h-4" />
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} className="m-0 w-4 h-4" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

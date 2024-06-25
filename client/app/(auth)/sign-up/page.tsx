@@ -21,7 +21,14 @@ const formSchema = z
     password: z.string().nonempty({ message: "Password is required" }).min(4, {
       message: "Password must be at least 4 characters.",
     }),
-    yob: z.number().int().nonnegative({ message: "Year of birth must be a non-negative integer" }),
+    yob: z
+      .number()
+      .int()
+      .nonnegative({ message: "Year of birth must be a non-negative integer" })
+      .min(1900, {
+        message: "Year of birth must be at least 1900.",
+      })
+      .max(2010, { message: "Year of birth must be at most 2010." }),
     confirmedPassword: z.string().nonempty({ message: "Confirmed password is required" }),
     isAdmin: z.boolean().optional(),
   })
@@ -37,7 +44,7 @@ const SignUpPage = () => {
       memberName: "",
       name: "",
       password: "",
-      yob: new Date().getFullYear(),
+      yob: 2000,
       confirmedPassword: "",
       isAdmin: false,
     },
